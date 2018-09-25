@@ -10,7 +10,8 @@ public:
 		bool_type,
 		int_type,
 		float_type,
-		ref_type
+		ref_type,
+		func_type
 	};
 
 	Kind get_kind() const { return m_kind;}
@@ -52,9 +53,12 @@ public:
 	Ref_type(Type* t)
 		:Type(ref_type), m_ref(t)
 		{}
+
+
 	
 	Type* get_ref_type () const { return m_ref;}
 };
+
 
 
 //Check equality of types
