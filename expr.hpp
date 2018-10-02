@@ -17,6 +17,8 @@ public:
 		ternary_kind
 	};
 
+	kind get_kind() const { return m_kind; }
+	Type* get_type() const {return m_type; }
 protected:
 	Expr(kind k) : m_kind(k) 
 	{}
@@ -25,6 +27,7 @@ protected:
 
 private:
 	kind m_kind;
+	Type *m_type;
 };
 
 class Bool_expr: public Expr 
@@ -61,9 +64,10 @@ public:
 	Float_expr(Float_type* t, float f): Expr(float_kind,t) , val(f)
 	{}
 
-	float get_val() const {return val;}
+	float get_value() const {return val;}
 };
 
+//base classes for expression that contain expression lists
 class Tuple : public Expr
 {
 protected:
@@ -81,24 +85,24 @@ public:
 	{return expr_list[index];}
 };
 
+enum unary_op
+{
+	logical_neg_uop,
+	neg_uop
+};
+
 class Unary_expr : public Tuple
 {
-public:
-	enum unary_type
-	{
-		not_unary,
-		negation_unary
-	};
-	
-	unary_type get_type() const { return m_type;}
+public:	
+	unary_op get_operator() const { return m_type;}
 
 protected:
-	Unary_expr(unary_type t): 
+	Unary_expr(unary_op t): 
 	Tuple(1,unary_kind), m_type(t)
 	{}
 
 private:
-	unary_type m_type;
+	unary_op m_type;
 };
 
 class Binary_expr : public Tuple 
@@ -155,4 +159,20 @@ private:
 	tern_type m_type;
 };
 
-void print(Expr e);
+class Logical_neg_expr : public Unary_expr 
+{
+public:
+	Logical_neg_expr(Expr* e):Unary_expr(logical_neg_uop)
+	{set_m_expr(0,e);}
+};
+
+class Negation_expr : public Unary_expr
+{
+public:
+	Negation_expr(Expr* e):Unary_expr(neg_uop)
+	{set_m_expr(0,e);}
+};
+
+
+
+void print(Expr* e);
