@@ -3,31 +3,35 @@
 #include "type.hpp"
 #include <vector>
 
+enum kind
+{
+	bool_kind,
+	int_kind,
+	float_kind,
+	id_kind,
+	unary_kind,
+	binary_kind,
+	ternary_kind
+};
+
+
 class Expr
 {
-public:
-	enum kind
-	{
-		bool_kind,
-		int_kind,
-		float_kind,
-		id_kind,
-		unary_kind,
-		binary_kind,
-		ternary_kind
-	};
+private:
+	kind m_kind;
+	Type *m_type;
 
+public:
 	kind get_kind() const { return m_kind; }
 	Type* get_type() const {return m_type; }
+
 protected:
 	Expr(kind k) : m_kind(k) 
 	{}
 	Expr(kind k, Type* t)
 	{}
 
-private:
-	kind m_kind;
-	Type *m_type;
+
 };
 
 class Bool_expr: public Expr 
@@ -49,7 +53,7 @@ private:
 	int val;
 
 public:
-	Int_expr(Int_type* t,int v): Expr(int_kind,t), val(v)
+	Int_expr(Type* t,int v): Expr(int_kind,t), val(v)
 	{}
 
 	int get_value() const {return val;}
