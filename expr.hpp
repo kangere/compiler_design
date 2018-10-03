@@ -9,9 +9,9 @@ enum kind
 	int_kind,
 	float_kind,
 	id_kind,
-	unary_kind,
-	binary_kind,
-	ternary_kind
+	unop_kind,
+	binop_kind,
+	cond_kind,
 };
 
 
@@ -28,7 +28,7 @@ public:
 protected:
 	Expr(kind k) : m_kind(k) 
 	{}
-	Expr(kind k, Type* t)
+	Expr(kind k, Type* t): m_kind(k), m_type(t)
 	{}
 
 
@@ -37,7 +37,7 @@ protected:
 class Bool_expr: public Expr 
 {
 public:
-	Bool_expr(Bool_type* t, bool b): Expr(bool_kind, t), val(b) 
+	Bool_expr(Type* t, bool b): Expr(bool_kind, t), val(b) 
 	{}
 
 	bool get_value() const {return val;}
@@ -46,6 +46,7 @@ private:
 	bool val;
 
 };
+
 
 class Int_expr: public Expr
 {
@@ -58,6 +59,7 @@ public:
 
 	int get_value() const {return val;}
 };
+
 
 class Float_expr : public Expr
 {
@@ -75,11 +77,12 @@ public:
 class Tuple : public Expr
 {
 protected:
-	int size;
+	//number of member expressions
+	int size; 
 	std::vector<Expr*> expr_list;
 
 public:
-	Tuple(int s,kind k): size(s), Expr(k)
+	Tuple(int s,kind k): Expr(k), size(s)
 	{ expr_list.reserve(size);}
 
 	void set_m_expr(int index, Expr* e)
@@ -89,91 +92,76 @@ public:
 	{return expr_list[index];}
 };
 
-enum unary_op
+enum unop
 {
-	logical_neg_uop,
+	logneg_uop,
 	neg_uop
 };
 
-class Unary_expr : public Tuple
+class Unop_expr : public Tuple
 {
 public:	
-	unary_op get_operator() const { return m_type;}
+	unop get_operator() const { return m_type;}
 
 protected:
-	Unary_expr(unary_op t): 
-	Tuple(1,unary_kind), m_type(t)
+	Unop_expr(unop t): 
+	Tuple(1,unop_kind), m_type(t)
 	{}
 
 private:
-	unary_op m_type;
+	unop m_type;
 };
 
 class Binary_expr : public Tuple 
 {
 public:
-	enum bin_type
+	enum binop
 	{
-		and_bin,
-		or_bin,
-		eq_bin,
-		neq_bin,
-		lt_bin,
-		gt_bin,
-		lt_eq_bin,
-		gt_eq_bin,
-		add_bin,
-		sub_bin,
-		mult_bin,
-		div_bin,
-		rem_bin
+		and_binop,
+		or_binop,
+		eq_binop,
+		neq_binop,
+		lt_binop,
+		gt_binop,
+		lt_eq_binop,
+		gt_eq_binop,
+		add_binop,
+		sub_binop,
+		mult_binop,
+		div_binop,
+		rem_binop
 	};
 
-	bin_type get_type() const { return m_type;}
+	binop get_type() const { return m_type;}
 
 protected:
-	Binary_expr(bin_type t): 
-	Tuple(2,binary_kind), m_type(t)
-	{}
-
-
-
-private:
-	bin_type m_type;
-};
-
-class Ternary_expr : public Tuple
-{
-public:
-	
-
-	enum tern_type
-	{
-		if_tern
-	};
-
-	tern_type get_type() const { return m_type;}
-
-protected:
-	Ternary_expr(tern_type t): 
-	Tuple(3,ternary_kind), m_type(t)
+	Binary_expr(binop t): 
+	Tuple(2,binop_kind), m_type(t)
 	{}
 
 private:
-	tern_type m_type;
+	binop m_type;
 };
 
-class Logical_neg_expr : public Unary_expr 
+class Cond_expr : public Tuple
 {
 public:
-	Logical_neg_expr(Expr* e):Unary_expr(logical_neg_uop)
+	Cond_expr():Tuple(3, cond_kind)
+	{}
+};
+
+
+class Logneg_expr : public Unop_expr 
+{
+public:
+	Logneg_expr(Expr* e):Unop_expr(logneg_uop)
 	{set_m_expr(0,e);}
 };
 
-class Negation_expr : public Unary_expr
+class Negation_expr : public Unop_expr
 {
 public:
-	Negation_expr(Expr* e):Unary_expr(neg_uop)
+	Negation_expr(Expr* e):Unop_expr(neg_uop)
 	{set_m_expr(0,e);}
 };
 
