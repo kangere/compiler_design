@@ -146,7 +146,7 @@ private:
 	binop m_type;
 };
 
-class Cond_expr : public Expr, public tuple<Expr*,3>
+class Cond_expr : public Expr, public tuple<Expr,3>
 {
 public:
 	Cond_expr(Type* t):Expr(cond_kind,t)
