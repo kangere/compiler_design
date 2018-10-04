@@ -5,7 +5,7 @@
 int main() {
 
 
-	Negation_expr* exp = new Negation_expr(new Int_expr(new Int_type(),4));
+	Negation_expr* exp = new Negation_expr(new Int_expr(new Int_type(),4), new Int_type());
 
 	print(exp);
 

@@ -20,7 +20,7 @@ print_unop(Unop_expr* un)
 	else if(un->get_operator() == neg_uop)
 		std::cout << "- ";
 	
-	print(un->get_m_expr(0));
+	print(un->get_m(0));
 
 }
 
