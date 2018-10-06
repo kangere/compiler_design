@@ -2,7 +2,7 @@
 
 #include "expr.hpp"
 #include "type.hpp"
-
+#include <string>
 
 class Decl 
 {
