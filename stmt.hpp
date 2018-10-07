@@ -1,7 +1,7 @@
 #pragma once 
 
 #include "expr.hpp"
-#include "declr.hpp"
+#include "decl.hpp"
 
 
 class Stmt
