@@ -79,7 +79,7 @@ public:
 	float get_value() const {return val;}
 };
 
-/*class Id_expr : public Expr
+class Id_expr : public Expr
 {
 private:
 	Decl* m_decl;
@@ -90,7 +90,7 @@ public:
 	{}
 
 	Decl* get_decl() const { return m_decl;}
-};*/
+};
 
 //base classes for classes that contain expressions as class members
 template<class T, int n>
@@ -165,7 +165,7 @@ private:
 	binop m_type;
 };
 
-//Only ternaey expression
+//Only ternary expression
 class Cond_expr : public Expr, public tuple<Expr,3>
 {
 public:
