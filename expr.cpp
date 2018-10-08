@@ -8,6 +8,10 @@ print_val(Expr* e)
 	{
 		Int_expr *in = static_cast<Int_expr*>(e);
 		std::cout << in->get_value() << std::endl;
+	} else if(e->get_kind() == float_kind)
+	{
+		Float_expr *fl = static_cast<Float_expr*>(e);
+		std::cout << fl->get_value() << std::endl;
 	}
 	
 }

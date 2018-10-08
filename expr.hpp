@@ -1,7 +1,10 @@
 #pragma once
 
 #include "type.hpp"
+#include "decl.hpp"
 #include <vector>
+
+class Decl;
 
 enum kind
 {
@@ -55,7 +58,8 @@ private:
 	int val;
 
 public:
-	Int_expr(Type* t,int v): Expr(int_kind,t), val(v)
+	Int_expr(Type* t,int v)
+	: Expr(int_kind,t), val(v)
 	{}
 
 	int get_value() const {return val;}
@@ -68,14 +72,27 @@ private:
 	float val;
 
 public:
-	Float_expr(Float_type* t, float f): Expr(float_kind,t) , val(f)
+	Float_expr(Float_type* t, float f)
+	: Expr(float_kind,t) , val(f)
 	{}
 
 	float get_value() const {return val;}
 };
 
+/*class Id_expr : public Expr
+{
+private:
+	Decl* m_decl;
 
-//base classes for expression that contain expressions as class members
+public:
+	Id_expr(Ref_type* t, Decl* d):
+	Expr(id_kind,t), m_decl(d)
+	{}
+
+	Decl* get_decl() const { return m_decl;}
+};*/
+
+//base classes for classes that contain expressions as class members
 template<class T, int n>
 class tuple
 {
@@ -101,6 +118,7 @@ enum unop
 	neg_uop
 };
 
+//base unary operation expression class
 class Unop_expr : public Expr, public tuple<Expr,1>
 {
 public:	
@@ -115,26 +133,27 @@ private:
 	unop m_type;
 };
 
+enum binop
+{
+	and_binop,
+	or_binop,
+	eq_binop,
+	neq_binop,
+	lt_binop,
+	gt_binop,
+	lt_eq_binop,
+	gt_eq_binop,
+	add_binop,
+	sub_binop,
+	mult_binop,
+	div_binop,
+	rem_binop
+};
+
+//Base binary operation expression class
 class Binop_expr : public Expr, public tuple<Expr,2> 
 {
 public:
-	enum binop
-	{
-		and_binop,
-		or_binop,
-		eq_binop,
-		neq_binop,
-		lt_binop,
-		gt_binop,
-		lt_eq_binop,
-		gt_eq_binop,
-		add_binop,
-		sub_binop,
-		mult_binop,
-		div_binop,
-		rem_binop
-	};
-
 	binop get_type() const { return m_type;}
 
 protected:
@@ -146,6 +165,7 @@ private:
 	binop m_type;
 };
 
+//Only ternaey expression
 class Cond_expr : public Expr, public tuple<Expr,3>
 {
 public:
@@ -168,7 +188,7 @@ public:
 		:Unop_expr(neg_uop,t,e) {}
 };
 
-//Binary Operattions Expression
+//Binary Operations Expression
 class And_expr : public Binop_expr
 {
 public:

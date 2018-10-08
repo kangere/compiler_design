@@ -55,7 +55,6 @@ public:
 		{}
 
 
-	
 	Type* get_ref_type () const { return m_ref;}
 };
 
