@@ -41,7 +41,7 @@ protected:
 class Bool_expr: public Expr 
 {
 public:
-	Bool_expr(Type* t, bool b): Expr(bool_kind, t), val(b) 
+	Bool_expr(bool b): Expr(bool_kind, new Bool_type()), val(b) 
 	{}
 
 	bool get_value() const {return val;}
@@ -58,8 +58,8 @@ private:
 	int val;
 
 public:
-	Int_expr(Type* t,int v)
-	: Expr(int_kind,t), val(v)
+	Int_expr(int v)
+	: Expr(int_kind,new Int_type()), val(v)
 	{}
 
 	int get_value() const {return val;}
@@ -72,8 +72,8 @@ private:
 	float val;
 
 public:
-	Float_expr(Float_type* t, float f)
-	: Expr(float_kind,t) , val(f)
+	Float_expr(float f)
+	: Expr(float_kind,new Float_type()) , val(f)
 	{}
 
 	float get_value() const {return val;}
@@ -85,7 +85,7 @@ private:
 	Decl* m_decl;
 
 public:
-	Id_expr(Ref_type* t, Decl* d):
+	Id_expr(Decl* d, Ref_type* t):
 	Expr(id_kind,t), m_decl(d)
 	{}
 
@@ -154,15 +154,15 @@ enum binop
 class Binop_expr : public Expr, public tuple<Expr,2> 
 {
 public:
-	binop get_type() const { return m_type;}
+	binop get_operator() const { return m_op;}
 
 protected:
 	Binop_expr(binop b, Type* t, Expr* e1, Expr* e2): 
-	Expr(binop_kind,t), m_type(b)
+	Expr(binop_kind,t), m_op(b)
 	{ set_m(0,e1); set_m(1,e2);}
 
 private:
-	binop m_type;
+	binop m_op;
 };
 
 //Only ternary expression
@@ -192,24 +192,24 @@ public:
 class And_expr : public Binop_expr
 {
 public:
-	And_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(and_binop,t,e1,e2) {}
+	And_expr(Expr* e1, Expr* e2)
+		:Binop_expr(and_binop,new Bool_type(),e1,e2) {}
 	
 };
 
 class Or_expr : public Binop_expr
 {
 public:
-	Or_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(or_binop,t,e1,e2) {}
+	Or_expr(Expr* e1, Expr* e2)
+		:Binop_expr(or_binop,new Bool_type(),e1,e2) {}
 	
 };
 
 class Eq_expr : public Binop_expr
 {
 public:
-	Eq_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(eq_binop,t,e1,e2) {}
+	Eq_expr(Expr* e1, Expr* e2)
+		:Binop_expr(eq_binop,new Bool_type(),e1,e2) {}
 	
 };
 
@@ -217,39 +217,39 @@ public:
 class Neq_expr : public Binop_expr
 {
 public:
-	Neq_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(neq_binop,t,e1,e2) {}
+	Neq_expr(Expr* e1, Expr* e2)
+		:Binop_expr(neq_binop,new Bool_type(),e1,e2) {}
 	
 };
 
 class Lt_expr : public Binop_expr
 {
 public:
-	Lt_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(lt_binop,t,e1,e2) {}
+	Lt_expr(Expr* e1, Expr* e2)
+		:Binop_expr(lt_binop,new Bool_type(),e1,e2) {}
 	
 };
 class Gt_expr : public Binop_expr
 {
 public:
-	Gt_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(gt_binop,t,e1,e2) {}
+	Gt_expr(Expr* e1, Expr* e2)
+		:Binop_expr(gt_binop,new Bool_type(),e1,e2) {}
 	
 };
 
 class Lteq_expr : public Binop_expr
 {
 public:
-	Lteq_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(lt_eq_binop,t,e1,e2) {}
+	Lteq_expr(Expr* e1, Expr* e2)
+		:Binop_expr(lt_eq_binop,new Bool_type(),e1,e2) {}
 	
 };
 
 class Gteq_expr : public Binop_expr
 {
 public:
-	Gteq_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(gt_eq_binop,t,e1,e2) {}
+	Gteq_expr(Expr* e1, Expr* e2)
+		:Binop_expr(gt_eq_binop,new Bool_type(),e1,e2) {}
 	
 };
 
