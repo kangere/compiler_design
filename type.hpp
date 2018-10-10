@@ -15,6 +15,7 @@ public:
 	};
 
 	Kind get_kind() const { return m_kind;}
+	bool is_same_as(Type*);
 
 protected:
 	Type(Kind k): m_kind(k) {}
@@ -60,7 +61,6 @@ public:
 
 
 
-//Check equality of types
-bool equal(Type const* t1, Type const* t2);
+void print(std::ostream &os, Type const* t);
 
 std::ostream& operator<<(std::ostream& os, Type const& t);

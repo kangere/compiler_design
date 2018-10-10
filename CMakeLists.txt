@@ -10,5 +10,5 @@ add_executable(ast
 	expr.cpp
 	decl.cpp
 	stmt.cpp
-	tests-main.cpp
-	tests-expression.cpp )
+	debug.cpp
+	sample_program.cpp)

@@ -1,14 +1,20 @@
 #include "decl.hpp"
+#include <iostream>
 
 static void
 print_var(Var_decl* d)
 {
-
+	std::cout << "var " << d->get_name() << " " << *(d->get_type());
+	print(d->get_expr());
+	std::cout << std::endl;
 }
 
 static void
 print_ref(Ref_decl* d)
 {
+	std::cout << "ref " << d->get_name() << " " << *(d->get_type());
+	print(d->get_expr());
+	std::cout << std::endl;
 
 }
 

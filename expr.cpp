@@ -1,4 +1,5 @@
 #include "expr.hpp"
+#include "debug.hpp"
 #include <iostream>
 
 static void 
@@ -107,4 +108,12 @@ void print(Expr* e)
 		case bool_kind:
 			return print_val(e);
 	}
+}
+
+void Expr::debug() const
+{
+	Debugger dp(std::cerr);
+
+	dp.debug(this);
+	
 }

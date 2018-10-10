@@ -67,6 +67,8 @@ public:
 
 	Expr* get_expr() const { return m_exp;}
 
+
+
 };
 
 class Func_decl : public Decl
@@ -82,6 +84,10 @@ public:
 
 	void add_param(Decl* d) 
 	{param_list.push_back(d);}
+
+	//returns number of parameters
+	int num_params()
+	{return param_list.size();}
 
 	std::vector<Decl*>   get_params() const
 	{return param_list;}

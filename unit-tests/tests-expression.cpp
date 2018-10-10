@@ -1,5 +1,5 @@
 #include <iostream>
-#include "expr.hpp"
+#include "../expr.hpp"
 #include "catch.hpp"
 
 

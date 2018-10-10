@@ -6,6 +6,7 @@
 
 class Decl;
 
+
 enum kind
 {
 	bool_kind,
@@ -35,6 +36,7 @@ protected:
 	m_kind(k), m_type(t)
 	{}
 
+	void debug() const;
 
 };
 

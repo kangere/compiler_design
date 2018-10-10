@@ -42,10 +42,10 @@ public:
 
 };
 
-class Continue: public Stmt
+class Continue_stmt: public Stmt
 {
 public:
-	Continue()
+	Continue_stmt()
 	:Stmt(continue_stmt)
 	{}
 
@@ -83,8 +83,8 @@ public:
 	int num_stmts() const 
 	{return stmt_list.size();}
 
-	Stmt* get_stmt()
-	{stmt_list.pop_back();}
+	std::vector<Stmt*> get_stmts() const
+	{return stmt_list;}
 
 };
 
@@ -118,17 +118,17 @@ public:
 	Expr* get_exp() const {return m_exp;}
 };
 
-class Exp_stmt : public Stmt
+class Expr_stmt : public Stmt
 {
 private:
 	Expr* m_exp;
 
 public:
-	Exp_stmt(Expr* e)
+	Expr_stmt(Expr* e)
 	:Stmt(expr_stmt), m_exp(e)
 	{}
 
-	Expr* get_exp() const {return m_exp;}
+	Expr* get_expr() const {return m_exp;}
 };
 
 class Decl_stmt : public Stmt
@@ -143,3 +143,6 @@ public:
 
 	Decl* get_decl() const { return m_decl;}
 };
+
+
+void print(Stmt* s);
