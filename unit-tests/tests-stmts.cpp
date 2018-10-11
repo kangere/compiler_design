@@ -12,9 +12,9 @@ TEST_CASE("Statement tests","[Statement]"){
 	REQUIRE(c->get_kind() == Stmt::continue_stmt);
 	REQUIRE(e->get_kind() == Stmt::expr_stmt);
 
-	REQUIRE((e->get_expr())->get_kind() == bool_kind);
+	REQUIRE((e->get_expr())->get_kind() == Expr::bool_expr);
 
-	std::cout << "Statements pretty print" << std::endl;
+	std::cout << "\nStatements pretty print" << std::endl;
 	print(br);
 	print(c);
 	print(e);

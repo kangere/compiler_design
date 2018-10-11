@@ -115,7 +115,7 @@ public:
 	:Stmt(return_stmt), m_exp(e)
 	{}
 
-	Expr* get_exp() const {return m_exp;}
+	Expr* get_expr() const {return m_exp;}
 };
 
 class Expr_stmt : public Stmt

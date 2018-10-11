@@ -12,7 +12,7 @@ TEST_CASE("Literal Expression Tests","[Literal]"){
 	REQUIRE( exp2->get_value() == 5);
 	REQUIRE( exp3->get_value() == 6.7f);
 
-	std::cout << "Literal Expression Print output" << std::endl;
+	std::cout << "\nLiteral Expression Print output" << std::endl;
 	print(exp1);
 	std::cout << std::endl;
 	print(exp2);
@@ -26,12 +26,14 @@ TEST_CASE("Unary Operations Expression Tests","[Unary]"){
 	Negation_expr* exp1 = new Negation_expr(new Int_expr(4), new Int_type());
 	Logneg_expr* exp2 = new Logneg_expr(new Float_expr(4.1), new Float_type());
 
-	REQUIRE( exp1->get_kind() == unop_kind);
-	REQUIRE( exp2->get_kind() == unop_kind);
+	REQUIRE( exp1->get_kind() == Expr::unop_expr);
+	REQUIRE( exp2->get_kind() == Expr::unop_expr);
+	REQUIRE( exp1->get_operator() == Unop_expr::neg_unop);
+	REQUIRE( exp2->get_operator() == Unop_expr::logneg_unop);
 	REQUIRE( (exp1->get_type())->get_kind() == Type::int_type);
 	REQUIRE( (exp2->get_type())->get_kind() == Type::float_type);
 
-	std::cout << "Unary Operation Expression Print output" << std::endl;
+	std::cout << "\nUnary Operation Expression Print output" << std::endl;
 	print(exp1);
 	print(exp2);
 
@@ -58,13 +60,14 @@ TEST_CASE("Binary Operation Expression Tests","[Binary]"){
 	REQUIRE( (lteq->get_type())->get_kind() == Type::bool_type);
 
 	REQUIRE( (add->get_type())->get_kind() == Type::int_type);
-	REQUIRE( (add->get_m(0))->get_kind() == int_kind);
-	REQUIRE( (add->get_m(1))->get_kind() == int_kind);	
+	REQUIRE( add->get_operator() == Binop_expr::add_binop);
+	REQUIRE( (add->get_m(0))->get_kind() == Expr::int_expr);
+	REQUIRE( (add->get_m(1))->get_kind() == Expr::int_expr);	
 
-	REQUIRE( (eq->get_m(0))->get_kind() == int_kind);
-	REQUIRE( (eq->get_m(1))->get_kind() == int_kind);
+	REQUIRE( (eq->get_m(0))->get_kind() == Expr::int_expr);
+	REQUIRE( (eq->get_m(1))->get_kind() == Expr::int_expr);
 
-	std::cout << "Binary Operation Expression Print output" << std::endl;
+	std::cout << "\nBinary Operation Expression Print output" << std::endl;
 	print(eq);
 	print(lt);
 	print(gt);
@@ -74,5 +77,10 @@ TEST_CASE("Binary Operation Expression Tests","[Binary]"){
 	print(sub);
 	print(mult);
 	print(div);
+
+}
+
+TEST_CASE("Conditional Expression","[Conditional]"){
+
 
 }

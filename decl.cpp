@@ -1,4 +1,5 @@
 #include "decl.hpp"
+#include "stmt.hpp"
 #include <iostream>
 
 static void
@@ -21,6 +22,17 @@ print_ref(Ref_decl* d)
 static void
 print_func(Func_decl* d)
 {
+	std::cout << "func " << d->get_name() << " (";
+
+	for(auto param : d->get_params()){
+		print(param);
+		std::cout << " ";
+	}
+
+	std::cout << "){\n\t";
+	print(d->get_stmt());
+
+	std::cout << "}\n";
 
 }
 

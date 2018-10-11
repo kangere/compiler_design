@@ -1,7 +1,7 @@
 #pragma once
 
 #include <iosfwd>
-
+#include <vector>
 class Type {
 
 public:
@@ -32,21 +32,24 @@ public:
 };
 
 
-class Int_type : public Type {
+class Int_type : public Type
+{
 
 public:
 	Int_type(): Type(int_type)
 	{}
 };
 
-class Float_type : public Type {
+class Float_type : public Type
+{
 
 public:
 	Float_type(): Type(float_type)
 	{}
 };
 
-class Ref_type : public Type {
+class Ref_type : public Type 
+{
 private:
 	Type* m_ref;
 
@@ -57,6 +60,33 @@ public:
 
 
 	Type* get_ref_type () const { return m_ref;}
+};
+
+class Func_type : public Type
+{
+private:
+	std::vector<Type*> args;
+	Type* return_type;
+
+public:
+	Func_type()
+	: Type(func_type){}
+
+	Func_type(Type* t)
+	:Type(func_type), return_type(t)
+	{}
+
+	void add_param(Type* p)
+	{args.push_back(p);}
+
+	void set_return_type(Type* t)
+	{return_type = t;}
+
+	int num_params () const
+	{return args.size();}
+
+	std::vector<Type*> get_args () const
+	{return args;}
 };
 
 
