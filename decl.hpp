@@ -4,6 +4,7 @@
 #include "type.hpp"
 #include "stmt.hpp"
 #include <string>
+#include <iosfwd>
 #include <vector>
 
 class Expr;
@@ -95,4 +96,6 @@ public:
 	Stmt* get_stmt () const { return m_stmt;}
 };
 
+
+void debug(std::ostream& os, Decl* s);
 void print(Decl*);

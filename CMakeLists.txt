@@ -11,4 +11,4 @@ add_executable(ast
 	decl.cpp
 	stmt.cpp
 	debug.cpp
-	sample_program.cpp)
+	sample.cpp)

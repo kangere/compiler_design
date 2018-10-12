@@ -1,5 +1,4 @@
 #include "expr.hpp"
-#include "debug.hpp"
 #include <iostream>
 
 static void 
@@ -110,10 +109,3 @@ void print(Expr* e)
 	}
 }
 
-void Expr::debug() const
-{
-	Debugger dp(std::cerr);
-
-	dp.debug(this);
-	
-}

@@ -8,9 +8,17 @@ TEST_CASE("Literal Expression Tests","[Literal]"){
 	Int_expr* exp2 = new Int_expr(5);
 	Float_expr* exp3 = new Float_expr(6.7);
 
+	Var_decl* decl = new Var_decl("y",new Int_type(),exp2);
+
+	Id_expr* id = new Id_expr(decl, new Ref_type(new Int_type()));
+
 	REQUIRE( exp1->get_value() == false);
 	REQUIRE( exp2->get_value() == 5);
 	REQUIRE( exp3->get_value() == 6.7f);
+
+	REQUIRE( (id->get_type())->get_kind() == Type::ref_type);
+	REQUIRE( (id->get_decl())->get_name() == "y");
+	
 
 	std::cout << "\nLiteral Expression Print output" << std::endl;
 	print(exp1);

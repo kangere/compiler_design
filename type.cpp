@@ -39,6 +39,7 @@ std::ostream& operator<<(std::ostream& os, Type const& t)
 	return os;
 }
 
+
 bool
 Type::is_same_as(Type* that)
 {

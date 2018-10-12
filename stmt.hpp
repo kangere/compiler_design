@@ -3,6 +3,7 @@
 #include "expr.hpp"
 #include "decl.hpp"
 #include <vector>
+#include <iosfwd>
 
 class Expr;
 class Decl;
@@ -63,7 +64,7 @@ public:
 	{}
 
 	Stmt* get_stmt() const{ return m_stmt;}
-	Expr* get_exp() const{ return m_exp;}
+	Expr* get_expr() const{ return m_exp;}
 
 };
 
@@ -100,7 +101,7 @@ public:
 		m_stmt_2(s2)
 	{}
 
-	Expr* get_exp() const {return m_exp;}
+	Expr* get_expr() const {return m_exp;}
 	Stmt* get_stmt_1() const {return m_stmt_1;}
 	Stmt* get_stmt_2() const { return m_stmt_2;} 
 };
@@ -144,5 +145,6 @@ public:
 	Decl* get_decl() const { return m_decl;}
 };
 
+void debug(std::ostream& os, Stmt* s);
 
 void print(Stmt* s);

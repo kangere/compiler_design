@@ -40,7 +40,7 @@ protected:
 	m_kind(k), m_type(t)
 	{}
 
-	void debug() const;
+	
 
 };
 
@@ -127,7 +127,9 @@ public:
 	enum unop
 	{
 		logneg_unop,
-		neg_unop
+		neg_unop,
+		rec_unop,
+		val_unop
 	};	
 	unop get_operator() const { return m_type;}
 
@@ -160,7 +162,9 @@ public:
 		sub_binop,
 		mult_binop,
 		div_binop,
-		rem_binop
+		rem_binop,
+		assign_binop,
+		func_binop
 	};
 
 	binop get_operator() const { return m_op;}
@@ -195,6 +199,13 @@ class Negation_expr : public Unop_expr
 public:
 	Negation_expr(Expr* e,Type* t)
 		:Unop_expr(neg_unop,t,e) {}
+};
+
+class Reciprocal_expr : public Unop_expr
+{
+public:
+	Reciprocal_expr(Expr* e,Type* t)
+		:Unop_expr(rec_unop,t,e) {}
 };
 
 //Binary Operations Expression
@@ -269,6 +280,7 @@ public:
 		:Binop_expr(add_binop,t,e1,e2) {}
 	
 };
+
 class Sub_expr : public Binop_expr
 {
 public:
@@ -276,6 +288,7 @@ public:
 		:Binop_expr(sub_binop,t,e1,e2) {}
 	
 };
+
 class Mult_expr : public Binop_expr
 {
 public:
@@ -283,6 +296,7 @@ public:
 		:Binop_expr(mult_binop,t,e1,e2) {}
 	
 };
+
 class Div_expr : public Binop_expr
 {
 public:
@@ -290,6 +304,7 @@ public:
 		:Binop_expr(div_binop,t,e1,e2) {}
 	
 };
+
 class Rem_expr : public Binop_expr
 {
 public:
@@ -298,5 +313,13 @@ public:
 	
 };
 
+class Assignment_expr : public Binop_expr
+{
+public:
+	Assignment_expr(Expr* e1, Expr* e2, Type* t)
+		:Binop_expr(rem_binop,t,e1,e2) {}	
+};
 
 void print(Expr* e);
+
+void debug(std::ostream &os,  Expr* e);

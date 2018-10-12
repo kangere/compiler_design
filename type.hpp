@@ -90,7 +90,6 @@ public:
 };
 
 
-
 void print(std::ostream &os, Type const* t);
 
 std::ostream& operator<<(std::ostream& os, Type const& t);
