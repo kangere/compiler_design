@@ -145,6 +145,7 @@ public:
 	Decl* get_decl() const { return m_decl;}
 };
 
-void debug(std::ostream& os, Stmt* s);
+
+void debug(std::ostream& os, Stmt* s,int indent = 0);
 
 void print(Stmt* s);

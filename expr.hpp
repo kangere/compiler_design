@@ -3,6 +3,7 @@
 #include "type.hpp"
 #include "decl.hpp"
 #include <vector>
+#include <iosfwd>
 
 class Decl;
 
@@ -201,6 +202,7 @@ public:
 		:Unop_expr(neg_unop,t,e) {}
 };
 
+//TODO implement print, debug
 class Reciprocal_expr : public Unop_expr
 {
 public:
@@ -322,4 +324,4 @@ public:
 
 void print(Expr* e);
 
-void debug(std::ostream &os,  Expr* e);
+void debug(std::ostream &os,  Expr* e,int indent = 0);

@@ -14,6 +14,12 @@ print_ref(std::ostream& os, Ref_type const* ref)
 	os << "ref:" << *(ref->get_ref_type());
 }
 
+static void
+print_func(std::ostream& os , Func_type const* t)
+{
+
+}
+
 void print(std::ostream &os, Type const* t)
 {
 	switch(t->get_kind()){
@@ -30,6 +36,9 @@ void print(std::ostream &os, Type const* t)
 
 		case Type::ref_type:
 			return print_ref(os,static_cast<Ref_type const*>(t));
+
+		case Type::func_type:
+			return print_func(os,static_cast<Func_type const*>(t));
 	}
 }
 

@@ -24,6 +24,7 @@ print_cmp(Compound_stmt* s)
 
 	for(auto st : s->get_stmts())
 		print(st);
+	
 }
 
 static void
@@ -33,7 +34,7 @@ print_while(While_stmt* s)
 	print(s->get_expr());
 	std::cout << "\ndo" << std::endl;
 	print(s->get_stmt());
-	std::cout << std::endl;
+	
 }
 
 static void
@@ -43,7 +44,7 @@ print_if(If_stmt* s)
 	print(s->get_expr());
 	std::cout << "then" <<std::endl;
 	print(s->get_stmt_1());
-	std::cout << "else" << std::endl;
+	std::cout << "\nelse" << std::endl;
 	print(s->get_stmt_2());
 	std::cout << std::endl;
 }
@@ -51,6 +52,7 @@ print_if(If_stmt* s)
 static void
 print_decl(Decl_stmt* s)
 {
+	std::cout << "decl_stmt: ";
 	print(s->get_decl());
 	std::cout << std::endl;
 }

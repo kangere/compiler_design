@@ -17,27 +17,30 @@ skipl(std::ostream& out)
 }
 
 static void
-indent(std::ostream& out)
+indent_func(int indent,std::ostream& out)
 {
-	out << "\t";
+	for(int i = 0 ; i < indent;i++){
+		out << "\t";
+	}
 }
 
 //skip line  and indent output stream
 static void
-skipl_indent(std::ostream& out)
+skipl_indent(int indent,std::ostream& out)
 {
 	skipl(out);
-	indent(out);
+	indent_func(indent,out);
 }
 
 
-//Expressions debug functions 
+//Util functions for debugging expressions 
 static void
-debug_literal(std::ostream& os,  Expr * e)
+debug_literal(int indent,std::ostream& os,  Expr * e)
 {
-	
+	indent_func(indent,os);
+
 	print(os,e->get_type());
-	os << ": ";
+	os << "_expr: ";
 
 	if(e->get_kind() == Expr::bool_expr)
 	{
@@ -59,8 +62,9 @@ debug_literal(std::ostream& os,  Expr * e)
 }
 
 static void
-debug_unop(std::ostream& os, Unop_expr* e)
+debug_unop(int indent,std::ostream& os, Unop_expr* e)
 {
+	indent_func(indent,os);
 	print(os,e->get_type());
 
 	switch(e->get_operator()){
@@ -80,14 +84,19 @@ debug_unop(std::ostream& os, Unop_expr* e)
 
 	os << (void*)e;
 	
-	skipl_indent(os);
-	debug(os,e->get_m(0));
+	
+	skipl(os);
+	//increase indent level
+	++indent;
+	debug(os,e->get_m(0),indent);
 
 } 
 
 static void
-debug_binop(std::ostream& os, Binop_expr* e)
+debug_binop(int indent,std::ostream& os, Binop_expr* e)
 {
+	indent_func(indent,os);
+
 	print(os,e->get_type());
 
 	switch(e->get_operator()){
@@ -140,41 +149,242 @@ debug_binop(std::ostream& os, Binop_expr* e)
 
 	os << (void*)e;
 
-	skipl_indent(os);
-	debug(os,e->get_m(0));
-	indent(os);
-	debug(os,e->get_m(1));
+	//increase indent level
+	++indent;
+	skipl(os);
+	debug(os,e->get_m(0),indent);
+	debug(os,e->get_m(1),indent);
 
 }
 
+//TODO fix conditional indent
 static void
-debug_cond(std::ostream& os, Cond_expr* e)
+debug_cond(int indent,std::ostream& os, Cond_expr* e)
 {
+	indent_func(indent,os);
+
 	print(os,e->get_type());
 	os << "if_expr";
-	skipl_indent(os);
-	debug(os,e->get_m(0));
-	indent(os);
-	debug(os,e->get_m(1));
-	indent(os);
-	debug(os,e->get_m(2));
+
+	//increase indent level
+	++indent;
+	skipl(os);
+	debug(os,e->get_m(0),indent);
+	skipl(os);
+	debug(os,e->get_m(1),indent);
+	skipl(os);
+	debug(os,e->get_m(2),indent);
 }
 
-void debug(std::ostream& os,  Expr * e)
+void debug_idexpr(int indent,std::ostream& os, Id_expr* e)
+{
+	indent_func(indent,os);
+
+	print(os,e->get_type());
+	os << "id_expr: " << (void*)e;
+
+	//increase indent level
+	++indent;
+	skipl(os);
+	debug(os,e->get_decl(),indent);
+
+}
+
+//Debug Expressions
+void debug(std::ostream& os,  Expr * e, int indent)
 {
 	switch(e->get_kind()){
 		case Expr::int_expr:
 		case Expr::float_expr:
 		case Expr::bool_expr:
-			return debug_literal(os,e);
+			return debug_literal(indent,os,e);
 		case Expr::unop_expr:
-			return debug_unop(os,static_cast<Unop_expr*>(e));
+			return debug_unop(indent,os,static_cast<Unop_expr*>(e));
 		case Expr::binop_expr:
-			return debug_binop(os,static_cast<Binop_expr*>(e));
+			return debug_binop(indent,os,static_cast<Binop_expr*>(e));
 		case Expr::cond_expr:
-			return debug_cond(os, static_cast<Cond_expr*>(e));
+			return debug_cond(indent,os, static_cast<Cond_expr*>(e));
 		case Expr::id_expr:
-			break;
+			return debug_idexpr(indent,os,static_cast<Id_expr*>(e));
 
+	}
+}
+
+
+
+
+//Util functions to debug declarations
+static void
+debug_var_decl(int indent,std::ostream& os, Var_decl* d)
+{
+	indent_func(indent,os);
+
+	os << "var_decl " << d->get_name() << ":";
+	print(os, d->get_type());
+	os << " " << (void*)d;
+
+	//increase indent level
+	++indent;
+	skipl(os);
+	debug(os,d->get_expr(),indent);
+
+}
+
+static void
+debug_ref_decl(int indent,std::ostream& os, Ref_decl* d)
+{
+	indent_func(indent,os);
+
+	os << "ref_decl " << d->get_name() << ":";
+	print(os,d->get_type());
+	os << " " << (void*)d;
+
+	//increase indent level
+	++indent;
+	skipl(os);
+	debug(os,d->get_expr(),indent);
+}
+
+static void
+debug_func_decl(int indent,std::ostream& os, Func_decl* d)
+{
+	indent_func(indent,os);
+
+	os << "func_decl " << d->get_name() << ": " << (void*)d;
+	print(os,d->get_type());
+
+	++indent;
+	skipl(os);
+
+	for(auto param : d->get_params())
+		debug(os,param,indent);
+
+	skipl(os);
+	++indent;
+	debug(os,d->get_stmt(),indent);
+
+
+}	
+
+//Debug Declarations
+void debug(std::ostream& os, Decl* d,int indent)
+{
+	switch(d->get_kind()){
+		case Decl::var_decl:
+			return debug_var_decl(indent,os,static_cast<Var_decl*>(d));
+		case Decl::ref_decl:
+			return debug_ref_decl(indent,os,static_cast<Ref_decl*>(d));
+		case Decl::func_decl:
+			return debug_func_decl(indent,os,static_cast<Func_decl*>(d));
+	}
+}
+
+
+
+//Util functions to debug statenents
+static void 
+debug_while(int indent, std::ostream& os, While_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "while_stmt: " << (void*)s;
+
+	++indent;
+	skipl(os);
+	debug(os,s->get_expr(),indent);
+	debug(os,s->get_stmt(),indent);
+
+}
+
+static void 
+debug_cmp_stmt(int indent, std::ostream& os, Compound_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "cmp_stmt: " << (void*)s;
+
+	++indent;
+	skipl(os);
+
+	for(auto stmt : s->get_stmts())
+		debug(os,stmt,indent);
+}
+static void 
+debug_return(int indent, std::ostream& os, Return_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "return_stmt: " << (void*)s;
+
+	skipl(os);
+	++indent;
+	debug(os,s->get_expr(),indent);
+}
+
+static void 
+debug_if_stmt(int indent, std::ostream& os, If_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "if_stmt: " << (void*)s;
+
+	++indent;
+	skipl(os);
+	debug(os,s->get_expr(),indent);
+	skipl(os);
+	debug(os,s->get_stmt_1(),indent);
+	skipl(os);
+	debug(os,s->get_stmt_2(),indent);
+}
+
+static void 
+debug_expr_stmt(int indent, std::ostream& os, Expr_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "expr_stmt: " << (void*)s;
+
+	++indent;
+	skipl(os);
+	debug(os,s->get_expr(),indent);
+}
+static void 
+debug_decl_stmt(int indent, std::ostream& os, Decl_stmt* s)
+{
+	indent_func(indent,os);
+
+	os << "decl_stmt: " << (void*)s;
+
+	++indent;
+	skipl(os);
+	debug(os,s->get_decl(),indent);
+}
+
+
+//Debug Statements
+void debug(std::ostream& os, Stmt* s, int indent)
+{
+	switch(s->get_kind()){
+
+		case Stmt::break_stmt:
+			os << "break_stmt: " << (void*)s;
+			skipl(os);
+			break;
+		case Stmt::continue_stmt:
+			os << "continue_stmt: " << (void*)s;
+			skipl(os);
+			break;
+		case Stmt::while_stmt:
+			return debug_while(indent,os,static_cast<While_stmt*>(s));
+		case Stmt::compound_stmt:
+			return debug_cmp_stmt(indent,os,static_cast<Compound_stmt*>(s));
+		case Stmt::if_stmt:
+			return debug_if_stmt(indent,os,static_cast<If_stmt*>(s));
+		case Stmt::return_stmt:
+			return debug_return(indent,os,static_cast<Return_stmt*>(s));
+		case Stmt::expr_stmt:
+			return debug_expr_stmt(indent,os,static_cast<Expr_stmt*>(s));
+		case Stmt::decl_stmt:
+			return debug_decl_stmt(indent,os,static_cast<Decl_stmt*>(s));
 	}
 }

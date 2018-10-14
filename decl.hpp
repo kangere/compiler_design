@@ -97,5 +97,5 @@ public:
 };
 
 
-void debug(std::ostream& os, Decl* s);
+void debug(std::ostream& os, Decl* s,int indent = 0);
 void print(Decl*);

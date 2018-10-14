@@ -86,7 +86,8 @@ print_cond(Cond_expr* e)
 static void
 print_id(Id_expr* e)
 {
-
+	std::cout << "id_expr: ";
+	print(e->get_decl());
 }
 
 
