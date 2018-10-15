@@ -319,9 +319,11 @@ class Assignment_expr : public Binop_expr
 {
 public:
 	Assignment_expr(Expr* e1, Expr* e2, Type* t)
-		:Binop_expr(rem_binop,t,e1,e2) {}	
+		:Binop_expr(assign_binop,t,e1,e2) {}	
 };
 
 void print(Expr* e);
 
 void debug(std::ostream &os,  Expr* e,int indent = 0);
+
+void s_expr(std::ostream &os, Expr* e);

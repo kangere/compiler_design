@@ -11,6 +11,7 @@ add_executable(tests
 	../decl.cpp
 	../stmt.cpp
 	../debug.cpp
+	../s_expr.cpp
 	tests-main.cpp
 	tests-expression.cpp
 	tests-declarations.cpp

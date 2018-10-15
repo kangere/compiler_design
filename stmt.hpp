@@ -148,4 +148,6 @@ public:
 
 void debug(std::ostream& os, Stmt* s,int indent = 0);
 
+void s_expr(std::ostream &os, Stmt* s);
+
 void print(Stmt* s);

@@ -29,6 +29,8 @@ print_unop(Unop_expr* un)
 		std::cout << "!" ;
 	else if(un->get_operator() == Unop_expr::neg_unop)
 		std::cout << "-";
+	else if(un->get_operator() == Unop_expr::rec_unop)
+		std::cout << "1/";
 	
 	print(un->get_m(0));
 	std::cout << std::endl;
@@ -66,6 +68,8 @@ print_binop(Binop_expr* e)
 		std::cout << " / ";
 	else if(e->get_operator() == Binop_expr::rem_binop)
 		std::cout << " % ";
+	else if(e->get_operator() == Binop_expr::assign_binop)
+		std::cout << " = ";
 
 	print(e->get_m(1));
 

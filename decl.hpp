@@ -98,4 +98,5 @@ public:
 
 
 void debug(std::ostream& os, Decl* s,int indent = 0);
+void s_expr(std::ostream &os, Decl* d);
 void print(Decl*);

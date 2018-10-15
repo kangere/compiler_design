@@ -43,12 +43,12 @@ TEST_CASE("Complex Statements","[Statements"){
 	REQUIRE( (wh->get_expr())->get_kind() == Expr::bool_expr);
 
 	REQUIRE( if_s->get_kind() == Stmt::if_stmt);
-	REQUIRE( (if_s->get_expr())->get_kind() == Expr::bool_expr);
+	REQUIRE( (if_s->get_expr())->get_kind() == Expr::binop_expr);
 	REQUIRE( (if_s->get_stmt_1())->get_kind() == Stmt::return_stmt);
 	REQUIRE( (if_s->get_stmt_2())->get_kind() == Stmt::return_stmt);
 
 	REQUIRE( ret->get_kind() == Stmt::return_stmt);
-	REQUIRE((ret->get_expr())->get_kind() == Expr::bool_expr);
+	REQUIRE((ret->get_expr())->get_kind() == Expr::binop_expr);
 	
 	REQUIRE(cmp->get_kind() == Stmt::compound_stmt);
 	REQUIRE(cmp->num_stmts() == 2);
