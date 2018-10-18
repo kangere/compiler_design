@@ -166,6 +166,7 @@ public:
 		rem_binop,
 		assign_binop,
 		func_binop
+
 	};
 
 	binop get_operator() const { return m_op;}

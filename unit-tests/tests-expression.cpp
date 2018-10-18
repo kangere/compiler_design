@@ -53,6 +53,7 @@ TEST_CASE("Unary Operations Expression Tests","[Unary]"){
 	print(exp1);
 	print(exp2);
 	print(rec);
+	s_expr(std::cout,exp1);
 
 }
 
@@ -106,6 +107,8 @@ TEST_CASE("Binary Operation Expression Tests","[Binary]"){
 	print(mult);
 	print(div);
 	print(assign);
+
+	s_expr(std::cout,eq);
 }
 
 TEST_CASE("Conditional Expression","[Conditional]"){

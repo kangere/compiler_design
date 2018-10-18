@@ -4,6 +4,21 @@
 
 #include <iostream>
 
+//util functions
+
+//open brackets
+static void
+open(std::ostream& os){
+	os << "(";
+}
+//close brackets
+static void
+close(std::ostream& os){
+	os << ")";
+}
+
+
+
 static void
 s_expr_lit(std::ostream& os, Expr* e)
 {
@@ -33,11 +48,85 @@ s_expr_idexpr(std::ostream& os, Id_expr* e)
 static void
 s_expr_unop(std::ostream& os, Unop_expr* e)
 {
+	open(os);
 
+	switch(e->get_operator()){
+		case Unop_expr::logneg_unop:
+			os << "not ";
+			break;
+		case Unop_expr::neg_unop:
+			os << "- ";
+			break;
+		case Unop_expr::rec_unop:
+			os << "/ ";
+			break;
+		case Unop_expr::val_unop:
+			os << "";
+			break;
+	}
+
+	s_expr(os,e->get_m(0));
+
+	close(os);
 }
 static void
 s_expr_binop(std::ostream& os, Binop_expr* e)
 {
+	open(os);
+
+	switch(e->get_operator()){
+		case Binop_expr::and_binop:
+			os << "& ";
+			break;
+		case Binop_expr::or_binop:
+			os << "or ";
+			break;
+		case Binop_expr::eq_binop:
+			os << "= ";
+			break;
+		case Binop_expr::neq_binop:
+			os << "!= ";
+			break;
+		case Binop_expr::lt_binop:
+			os << "< ";
+			break;
+		case Binop_expr::gt_binop:
+			os << "> ";
+			break;
+		case Binop_expr::lt_eq_binop:
+			os << "<= ";
+			break;
+		case Binop_expr::gt_eq_binop:
+			os << ">= ";
+			break;
+		case Binop_expr::add_binop:
+			os << "+ ";
+			break;
+		case Binop_expr::sub_binop:
+			os << "- ";
+			break;
+		case Binop_expr::mult_binop:
+			os << "* ";
+			break;
+		case Binop_expr::div_binop:
+			os << "/ ";
+			break;
+		case Binop_expr::rem_binop:
+			os << "/ ";
+			break;
+		case Binop_expr::assign_binop:
+			os << "= ";
+			break;
+		case Binop_expr::func_binop:
+			os << "func ";
+			break;
+	}
+
+	s_expr(os,e->get_m(0));
+	os << " ";
+	s_expr(os,e->get_m(1));
+
+	close(os);
 
 }
 static void
@@ -45,6 +134,7 @@ s_expr_cond(std::ostream& os, Cond_expr* e)
 {
 
 }
+
 
 void 
 s_expr(std::ostream& os, Expr* e)
