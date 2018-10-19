@@ -4,6 +4,7 @@
 #include "decl.hpp"
 #include <vector>
 #include <iosfwd>
+#include <cassert>
 
 class Decl;
 
@@ -111,10 +112,17 @@ public:
 	{list.reserve(n);}
 
 	void set_m(int index, T* value)
-	{list[index] = value;}
+	{
+		assert(index < n);
+		list[index] = value;
+	}
+
+	int num_mems() const {return n;}
 
 	T* get_m(int index)
-	{return list[index];}
+	{
+		assert(index < n);
+		return list[index];}
 };
 
 
@@ -184,8 +192,13 @@ private:
 class Cond_expr : public Expr, public tuple<Expr,3>
 {
 public:
-	Cond_expr(Type* t):Expr(cond_expr,t)
-	{}
+	Cond_expr(Expr* e1, Expr* e2, Expr* e3,Type* t)
+	:Expr(cond_expr,t)
+	{ 	
+		set_m(0,e1);
+		set_m(1,e2);
+		set_m(2,e3);
+	}
 };
 
 //Unary Operations Expressions
@@ -203,13 +216,21 @@ public:
 		:Unop_expr(neg_unop,t,e) {}
 };
 
-//TODO implement print, debug
 class Reciprocal_expr : public Unop_expr
 {
 public:
 	Reciprocal_expr(Expr* e,Type* t)
 		:Unop_expr(rec_unop,t,e) {}
 };
+
+class Value_expr : public Unop_expr
+{
+public:
+	Value_expr(Expr* e, Type* t)
+		:Unop_expr(val_unop,t,e) {}
+};
+
+
 
 //Binary Operations Expression
 class And_expr : public Binop_expr

@@ -12,7 +12,9 @@ add_executable(tests
 	../stmt.cpp
 	../debug.cpp
 	../s_expr.cpp
+	../factory.cpp
 	tests-main.cpp
 	tests-expression.cpp
 	tests-declarations.cpp
-	tests-stmts.cpp )
+	tests-stmts.cpp
+	tests-factory.cpp )

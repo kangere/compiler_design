@@ -77,6 +77,7 @@ debug_example()
 	//unary operations expressions
 	Negation_expr* neg = new Negation_expr(i,new Int_type());
 	Logneg_expr* log_neg = new Logneg_expr(f,new Float_type());
+	Reciprocal_expr* rec = new Reciprocal_expr(i,new Int_type());
 
 	//binary operations expressions
 	And_expr* an = new And_expr(new Bool_expr(true),new Bool_expr(true));
@@ -123,6 +124,7 @@ debug_example()
 	debug(std::cerr,id);
 	debug(std::cerr,neg);
 	debug(std::cerr,log_neg);
+	debug(std::cerr,rec);
 	skipl();
 	debug(std::cerr,an);
 	debug(std::cerr,add);

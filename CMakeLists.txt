@@ -12,4 +12,5 @@ add_executable(ast
 	stmt.cpp
 	debug.cpp
 	s_expr.cpp
-	sample.cpp)
+	sample.cpp
+	factory.cpp)

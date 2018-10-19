@@ -65,22 +65,23 @@ static void
 debug_unop(int indent,std::ostream& os, Unop_expr* e)
 {
 	indent_func(indent,os);
-	print(os,e->get_type());
+	
 
 	switch(e->get_operator()){
 		case Unop_expr::logneg_unop:
-			os << ":log_neg_expr ";
+			os << "log_neg_expr:";
 			break;
 		case Unop_expr::neg_unop:
-			os << ":neg_expr ";
+			os << "neg_expr:";
 			break;
 		case Unop_expr::val_unop:
-			os << ":val_expr ";
+			os << "val_expr:";
 			break;
 		case Unop_expr::rec_unop:
-			os << ":rec_expr ";
+			os << "rec_expr:";
 			break;
 	}
+	print(os,e->get_type());
 
 	os << (void*)e;
 	
@@ -97,55 +98,57 @@ debug_binop(int indent,std::ostream& os, Binop_expr* e)
 {
 	indent_func(indent,os);
 
-	print(os,e->get_type());
+	
 
 	switch(e->get_operator()){
 		case Binop_expr::and_binop:
-			os << ":and_expr ";
+			os << "and_expr:";
 			break;
 		case Binop_expr::or_binop:
-			os << ":or_expr ";
+			os << "or_expr:";
 			break;
 		case Binop_expr::eq_binop:
-			os << ":eq_expr ";
+			os << "eq_expr:";
 			break;
 		case Binop_expr::neq_binop:
-			os << ":neq_expr ";
+			os << "neq_expr:";
 			break;
 		case Binop_expr::lt_binop:
-			os << ":lt_expr ";
+			os << "lt_expr:";
 			break;
 		case Binop_expr::gt_binop:
-			os << ":gt_expr ";
+			os << "gt_expr:";
 			break;
 		case Binop_expr::lt_eq_binop:
-			os << ":lt_eq_expr ";
+			os << "lt_eq_expr:";
 			break;
 		case Binop_expr::gt_eq_binop:
-			os << ":gt_eq_expr ";
+			os << "gt_eq_expr:";
 			break;
 		case Binop_expr::add_binop:
-			os << ":add_expr ";
+			os << "add_expr:";
 			break;
 		case Binop_expr::sub_binop:
-			os << ":sub_expr ";
+			os << "sub_expr:";
 			break;
 		case Binop_expr::mult_binop:
-			os << ":mult_expr ";
+			os << "mult_expr:";
 			break;
 		case Binop_expr::div_binop:
-			os << ":div_expr ";
+			os << "div_expr:";
 			break;
 		case Binop_expr::rem_binop:
-			os << ":rem_expr ";
+			os << "rem_expr:";
 			break;
 		case Binop_expr::assign_binop:
-			os << ":assign_expr ";
+			os << "assign_expr:";
 			break;
 		case Binop_expr::func_binop:
-			os << ":func_expr ";
+			os << "func_expr ";
 			break;
 	}
+
+	print(os,e->get_type());
 
 	os << (void*)e;
 
@@ -163,9 +166,9 @@ debug_cond(int indent,std::ostream& os, Cond_expr* e)
 {
 	indent_func(indent,os);
 
+	
+	os << "if_expr:";
 	print(os,e->get_type());
-	os << "if_expr";
-
 	//increase indent level
 	++indent;
 	skipl(os);

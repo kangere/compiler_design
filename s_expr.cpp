@@ -42,7 +42,7 @@ s_expr_lit(std::ostream& os, Expr* e)
 static void
 s_expr_idexpr(std::ostream& os, Id_expr* e)
 {
-
+	
 }
 
 static void

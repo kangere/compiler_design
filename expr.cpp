@@ -79,11 +79,11 @@ print_binop(Binop_expr* e)
 static void
 print_cond(Cond_expr* e)
 {
-	std::cout << "if" << std::endl;
+	
 	print(e->get_m(0));
-	std::cout << " then " << std::endl;
+	std::cout << " ? " ;
 	print(e->get_m(1));
-	std::cout << " else " << std::endl;
+	std::cout << " : " ;
 	print(e->get_m(2));
 }
 
