@@ -6,9 +6,9 @@ TEST_CASE("Expression factory tests","[Expressions]"){
 
 	Ast_Factory* e = new Ast_Factory();
 
-	Bool_expr* b = e->make_literal<Bool_expr,bool>(true);
-	Int_expr* in = e->make_literal<Int_expr,int>(7);
-	Float_expr* fl = e->make_literal<Float_expr,float>(6.7);
+	Bool_expr* b = e->literal<Bool_expr,bool>(true);
+	Int_expr* in = e->literal<Int_expr,int>(7);
+	Float_expr* fl = e->literal<Float_expr,float>(6.7);
 
 	Var_decl* decl = new Var_decl("y",e->int_t(),in);
 

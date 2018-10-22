@@ -21,7 +21,7 @@ public:
 
 	//Literal expression 
 	template<typename T, typename V>
-	T* make_literal(V v)
+	T* literal(V v)
 	{ return new T(v);}
 
 	//Id expression

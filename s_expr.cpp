@@ -132,7 +132,12 @@ s_expr_binop(std::ostream& os, Binop_expr* e)
 static void
 s_expr_cond(std::ostream& os, Cond_expr* e)
 {
-
+	open(os);
+	os << " ?: ";
+	s_expr(os,e->get_m(0));
+	s_expr(os,e->get_m(1));
+	s_expr(os,e->get_m(2));
+	close(os);
 }
 
 
@@ -152,5 +157,62 @@ s_expr(std::ostream& os, Expr* e)
 			return s_expr_binop(os,static_cast<Binop_expr*>(e));
 		case Expr::cond_expr:
 			return s_expr_cond(os,static_cast<Cond_expr*>(e));
+	}
+}
+
+
+
+
+//DECLARATION s-expr Implementation
+static void 
+var_s_expr(std::ostream& os, Var_decl* d)
+{
+	open(os);
+	os << "var_decl ";
+	s_expr(os,d->get_expr());
+	close(os);
+}
+
+static void 
+ref_s_expr(std::ostream& os, Ref_decl* d)
+{
+	open(os);
+	os << "ref_decl ";
+	s_expr(os,d->get_expr());
+	close(os);
+}
+
+static void 
+func_s_expr(std::ostream& os, Func_decl* d)
+{
+	open(os);
+	os << "func ";
+
+	open(os);
+	for(auto param : d->get_params()){
+		s_expr(os,param);
+	}
+	close(os);
+
+	open(os);
+	s_expr(os,d->get_stmt());
+	close(os);
+
+	close(os);
+
+}
+	
+
+
+void
+s_expr(std::ostream& os, Decl* d)
+{
+	switch(d->get_kind()){
+		case Decl::var_decl:
+			return var_s_expr(os,static_cast<Var_decl*>(d));
+		case Decl::ref_decl:
+			return ref_s_expr(os,static_cast<Ref_decl*>(d));
+		case Decl::func_decl:
+			return func_s_expr(os,static_cast<Func_decl*>(d));
 	}
 }
