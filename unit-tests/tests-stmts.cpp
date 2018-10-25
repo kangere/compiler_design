@@ -22,6 +22,9 @@ TEST_CASE("Statement tests","[Statement]"){
 	print(c);
 	print(e);
 	print(d);
+	s_expr(std::cout, br);
+	s_expr(std::cout, d);
+
 }
 
 TEST_CASE("Complex Statements","[Statements"){
@@ -56,4 +59,5 @@ TEST_CASE("Complex Statements","[Statements"){
 	print(wh);
 	print(if_s);
 	print(cmp);
+	s_expr(std::cout,cmp);
 }

@@ -26,6 +26,7 @@ TEST_CASE("Declarations tests","[Declaration]"){
 	std::cout << "\nDeclarations Pretty Print" <<std::endl;
 	print(var);
 	print(ref);
+	s_expr(std::cout,ref);
 	
 }
 
@@ -57,4 +58,5 @@ TEST_CASE("Function Declaraion tests","[Function Declaraion]"){
 
 	std::cout << "\nFunction Declaration Pretty Print" << std::endl;
 	print(func);
+	s_expr(std::cout,func);
 }

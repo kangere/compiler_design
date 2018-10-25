@@ -18,7 +18,7 @@ close(std::ostream& os){
 }
 
 
-
+//expression util functions
 static void
 s_expr_lit(std::ostream& os, Expr* e)
 {
@@ -79,10 +79,10 @@ s_expr_binop(std::ostream& os, Binop_expr* e)
 			os << "& ";
 			break;
 		case Binop_expr::or_binop:
-			os << "or ";
+			os << "| ";
 			break;
 		case Binop_expr::eq_binop:
-			os << "= ";
+			os << "== ";
 			break;
 		case Binop_expr::neq_binop:
 			os << "!= ";
@@ -164,12 +164,17 @@ s_expr(std::ostream& os, Expr* e)
 
 
 //DECLARATION s-expr Implementation
+
+//declaration util functions
 static void 
 var_s_expr(std::ostream& os, Var_decl* d)
 {
 	open(os);
 	os << "var_decl ";
+	open(os);
+	os << "= " << d->get_name() << " ";
 	s_expr(os,d->get_expr());
+	close(os);
 	close(os);
 }
 
@@ -178,7 +183,10 @@ ref_s_expr(std::ostream& os, Ref_decl* d)
 {
 	open(os);
 	os << "ref_decl ";
+	open(os);
+	os << "= "<< d->get_name() << " ";
 	s_expr(os,d->get_expr());
+	close(os);
 	close(os);
 }
 
@@ -214,5 +222,104 @@ s_expr(std::ostream& os, Decl* d)
 			return ref_s_expr(os,static_cast<Ref_decl*>(d));
 		case Decl::func_decl:
 			return func_s_expr(os,static_cast<Func_decl*>(d));
+	}
+}
+
+
+
+
+//Statements s-expr
+
+//util functions
+static void
+while_s_expr(std::ostream& os, While_stmt* s)
+{
+	open(os);
+	os << "while_stmt ";
+	s_expr(os,s->get_expr());
+
+	s_expr(os,s->get_stmt());
+
+	close(os);
+}
+
+static void
+compound_s_expr(std::ostream& os, Compound_stmt* s)
+{
+	open(os);
+
+	for(auto stmt : s->get_stmts())
+		s_expr(os,stmt);
+
+	close(os);
+}
+
+static void
+if_s_expr(std::ostream& os, If_stmt* s)
+{
+	open(os);
+
+	os << "if ";
+	s_expr(os,s->get_expr());
+	os << " then ";
+	s_expr(os,s->get_stmt_1());
+	os << " else ";
+	s_expr(os,s->get_stmt_2());
+
+	close(os);
+}
+
+static void
+return_s_expr(std::ostream& os, Return_stmt* s)
+{
+	open(os);
+	os << " return ";
+	s_expr(os,s->get_expr());
+	close(os);
+
+}
+
+static void
+expr_s_expr(std::ostream& os, Expr_stmt* s)
+{
+	open(os);
+	os << " expr_stmt ";
+	s_expr(os,s->get_expr());
+	close(os);
+	
+}
+
+static void
+decl_s_expr(std::ostream& os, Decl_stmt* s)
+{
+	open(os);
+	os << " decl_stmt ";
+	s_expr(os,s->get_decl());
+	close(os);
+}
+
+void
+s_expr(std::ostream& os, Stmt* s)
+{
+	switch(s->get_kind()){
+		case Stmt::break_stmt:
+			os << "break";
+			break;
+		case Stmt::continue_stmt:
+			os << "continue";
+			break;
+		case Stmt::while_stmt:
+			return while_s_expr(os,static_cast<While_stmt*>(s));
+		case Stmt::compound_stmt:
+			return compound_s_expr(os,static_cast<Compound_stmt*>(s));
+		case Stmt::if_stmt:
+			return if_s_expr(os,static_cast<If_stmt*>(s));
+		case Stmt::return_stmt:
+			return return_s_expr(os,static_cast<Return_stmt*>(s));
+		case Stmt::expr_stmt:
+			return expr_s_expr(os,static_cast<Expr_stmt*>(s));
+		case Stmt::decl_stmt:
+			return decl_s_expr(os,static_cast<Decl_stmt*>(s));
+
 	}
 }

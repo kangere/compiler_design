@@ -8,7 +8,30 @@
 
 class Decl;
 
+//base classes for classes that contain member objects of the same type
+template<typename T, int n>
+class tuple
+{
+private:
+	std::vector<T*> list;
 
+public:
+	tuple()
+	{list.reserve(n);}
+
+	void set_m(int index, T* value)
+	{
+		assert(index < n);
+		list[index] = value;
+	}
+
+	int num_mems() const {return n;}
+
+	T* get_m(int index)
+	{
+		assert(index < n);
+		return list[index];}
+};
 
 
 
@@ -100,30 +123,7 @@ public:
 	Decl* get_decl() const { return m_decl;}
 };
 
-//base classes for classes that contain expressions as class members
-template<class T, int n>
-class tuple
-{
-private:
-	std::vector<T*> list;
 
-public:
-	tuple()
-	{list.reserve(n);}
-
-	void set_m(int index, T* value)
-	{
-		assert(index < n);
-		list[index] = value;
-	}
-
-	int num_mems() const {return n;}
-
-	T* get_m(int index)
-	{
-		assert(index < n);
-		return list[index];}
-};
 
 
 
