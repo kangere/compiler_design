@@ -47,6 +47,7 @@ public:
 		unop_expr,
 		binop_expr,
 		cond_expr,
+		func_expr
 	};
 	
 private:
@@ -123,7 +124,18 @@ public:
 	Decl* get_decl() const { return m_decl;}
 };
 
+class Func_expr : public Expr
+{
+private:
+	std::vector<Expr*> mems;
+	Expr* m_ret;
 
+public:
+	Func_expr(Type* t): Expr(func_expr,t)
+	{}
+
+
+}; 
 
 
 
@@ -172,8 +184,7 @@ public:
 		mult_binop,
 		div_binop,
 		rem_binop,
-		assign_binop,
-		func_binop
+		assign_binop
 
 	};
 

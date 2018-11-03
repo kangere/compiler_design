@@ -117,9 +117,6 @@ s_expr_binop(std::ostream& os, Binop_expr* e)
 		case Binop_expr::assign_binop:
 			os << "= ";
 			break;
-		case Binop_expr::func_binop:
-			os << "func ";
-			break;
 	}
 
 	s_expr(os,e->get_m(0));

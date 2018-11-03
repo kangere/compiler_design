@@ -14,4 +14,5 @@ add_executable(ast
 	s_expr.cpp
 	sample.cpp
 	factory.cpp
-	builder.cpp)
+	builder.cpp
+	builder.util.cpp)

@@ -15,7 +15,9 @@ public:
 	};
 
 	Kind get_kind() const { return m_kind;}
-	bool is_same_as(Type*);
+	bool same_as(Type*);
+
+	virtual bool is_arithmetic() = 0;
 
 protected:
 	Type(Kind k): m_kind(k) {}
@@ -29,6 +31,9 @@ class Bool_type : public Type {
 public:
 	Bool_type(): Type(bool_type) 
 	{}
+
+	bool is_arithmetic()
+	{return false;}
 };
 
 
@@ -38,6 +43,10 @@ class Int_type : public Type
 public:
 	Int_type(): Type(int_type)
 	{}
+
+	bool is_arithmetic()
+	{return true;}
+
 };
 
 class Float_type : public Type
@@ -46,6 +55,9 @@ class Float_type : public Type
 public:
 	Float_type(): Type(float_type)
 	{}
+
+	bool is_arithmetic()
+	{return true;}
 };
 
 class Ref_type : public Type 
@@ -58,6 +70,8 @@ public:
 		:Type(ref_type), m_ref(t)
 		{}
 
+	bool is_arithmetic()
+	{return false;}
 
 	Type* get_ref_type () const { return m_ref;}
 };
@@ -76,6 +90,9 @@ public:
 	:Type(func_type), return_type(t)
 	{}
 
+	bool is_arithmetic()
+	{return false;}
+	
 	void add_param(Type* p)
 	{args.push_back(p);}
 

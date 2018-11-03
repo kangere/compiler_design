@@ -143,9 +143,6 @@ debug_binop(int indent,std::ostream& os, Binop_expr* e)
 		case Binop_expr::assign_binop:
 			os << "assign_expr:";
 			break;
-		case Binop_expr::func_binop:
-			os << "func_expr ";
-			break;
 	}
 
 	print(os,e->get_type());

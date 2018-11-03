@@ -26,7 +26,7 @@ static void
 print_unop(Unop_expr* un)
 {
 	if(un->get_operator() == Unop_expr::logneg_unop)
-		std::cout << "!" ;
+		std::cout << "not" ;
 	else if(un->get_operator() == Unop_expr::neg_unop)
 		std::cout << "-";
 	else if(un->get_operator() == Unop_expr::rec_unop)

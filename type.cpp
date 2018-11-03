@@ -50,7 +50,7 @@ std::ostream& operator<<(std::ostream& os, Type const& t)
 
 
 bool
-Type::is_same_as(Type* that)
+Type::same_as(Type* that)
 {
 	return m_kind == that->get_kind();
 }
