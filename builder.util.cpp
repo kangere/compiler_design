@@ -7,7 +7,7 @@ Builder::convert_value(Expr* e)
 {
 	Type* t = e->get_type();
 
-	if(t->get_kind() == Type::ref_type)
+	if(t->is_ref())
 	{
 		Ref_type* ref = static_cast<Ref_type*>(t);
 		return new Value_expr(e,ref->get_ref_type());
@@ -23,8 +23,10 @@ Builder::require_bool(Expr* e)
 
 	Type* t = e->get_type();
 
-	if(t->get_kind() != Type::bool_type)
-		std::cerr << "type bool required"<< std::endl;
+	if(!t->is_bool()){
+		std::cerr << "type bool required, actual" << *(e->get_type()) << std::endl;
+		++errors;
+	}
 }
 
 void 
@@ -33,15 +35,19 @@ Builder::require_same(Expr* e1, Expr* e2)
 	e1 = convert_value(e1);
 	e2 = convert_value(e2);
 
-	if(!((e1->get_type())->same_as(e2->get_type())))
+	if(!((e1->get_type())->same_as(e2->get_type()))){
 		std::cerr << "Type: " << *(e1->get_type()) << " is not same as " << *(e2->get_type()) << std::endl;
+		++errors;
+	}
 }
 
 Expr*
 Builder::require_arithmetic(Expr* e)
 {
-	if(!(e->get_type())->is_arithmetic())
+	if(!(e->get_type())->is_arithmetic()){
 		std::cerr << "Arithmetic type expected, actual: " << *(e->get_type()) << std::endl;
+		++errors;
+	}
 
 	return e;
 }
@@ -62,4 +68,13 @@ Builder::is_same_arithmetic(Expr* e1, Expr* e2)
 
 	//ensure same type
 	require_same(e1,e2);
+}
+
+void 
+Builder::require_ref(Expr* e)
+{
+	if(!(e->get_type())->is_ref()){
+		std::cerr << " Ref type expected, actual: " << *(e->get_type()) << std::endl;
+		++errors;
+	}
 }

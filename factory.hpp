@@ -93,6 +93,9 @@ public:
 	Cond_expr* cond_e(Expr* e1, Expr* e2, Expr* e3, Type* t)
 	{ return new Cond_expr(e1,e2,e3,t);}
 
+	Func_expr* call_e(std::initializer_list<Expr*> l, Type* t)
+	{return new Func_expr(l,t);}
+
 
 	//DECLARATIONS
 	Var_decl* var_d(std::string name, Type* t, Expr* e)
@@ -115,6 +118,9 @@ public:
 
 	Compound_stmt* compound_s()
 	{return new Compound_stmt();}
+
+	Compound_stmt* compound_s(std::initializer_list<Stmt*> ss)
+	{ return new Compound_stmt(ss);}
 
 	Expr_stmt* expr_s(Expr* e)
 	{ return new Expr_stmt(e);}

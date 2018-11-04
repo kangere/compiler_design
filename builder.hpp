@@ -6,6 +6,10 @@
 
 class Builder{
 private:
+
+	//error count;
+	int errors;
+
 	//factory member
 	Ast_Factory f;
 
@@ -15,8 +19,17 @@ private:
 	void require_same(Expr*,Expr*);
 	void is_same_arithmetic(Expr*,Expr*);
 	Expr* require_arithmetic(Expr*);
+	void require_ref(Expr*);
 
 public:
+
+	Builder()
+	:errors(0)
+	{}
+
+	//return num errors
+	int num_errors() const
+	{ return errors;}
 
 	//literal expressions
 	Expr* make_bool(bool b)
@@ -61,6 +74,12 @@ public:
 
 	Expr* make_neg(Expr* e);
 
+	Expr* make_assignment(Expr* e1,Expr* e2);
+
+	Expr* make_id(Decl* d, Type* t);
+
+	Expr* make_call();
+
 
 	//Statements
 	Stmt* make_break();
@@ -78,5 +97,15 @@ public:
 	Stmt* make_expr(Expr* e);
 
 	Stmt* make_decl(Decl* d);
+
+
+	//Declarations
+
+	Decl* make_var(std::string,Type*,Expr*);
+
+	Decl* make_ref(std::string,Type*,Expr*);
+
+	//Implement
+	Decl* make_func(std::string,Type*,Stmt*);
 
 };

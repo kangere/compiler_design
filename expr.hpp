@@ -117,7 +117,7 @@ private:
 	Decl* m_decl;
 
 public:
-	Id_expr(Decl* d, Ref_type* t):
+	Id_expr(Decl* d, Type* t):
 	Expr(id_expr,t), m_decl(d)
 	{}
 
@@ -128,11 +128,18 @@ class Func_expr : public Expr
 {
 private:
 	std::vector<Expr*> mems;
-	Expr* m_ret;
+	
 
 public:
-	Func_expr(Type* t): Expr(func_expr,t)
+	Func_expr(std::initializer_list<Expr*> l ,Type* t)
+	: Expr(func_expr,t), mems(l)
 	{}
+
+	Expr* get_function() const
+	{ return mems.front();}
+
+	std::vector<Expr*> get_args()
+	{return std::vector<Expr*>(mems.begin() + 1, mems.end());}
 
 
 }; 

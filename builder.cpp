@@ -1,6 +1,7 @@
 #include "builder.hpp"
 #include <iostream>
 #include <vector>
+#include <string>
 
 Expr* 
 Builder::make_and(Expr* e1, Expr* e2)
@@ -137,6 +138,17 @@ Builder::make_neg(Expr* e)
 	return f.neg_e(e,e->get_type());
 }
 
+Expr*
+Builder::make_assignment(Expr* e1,Expr* e2)
+{
+
+	require_ref(e1);
+
+	e2 = convert_value(e2);
+
+	return f.assign_e(e1,e2,new Ref_type(e2->get_type())); 
+}
+
 //Statements
 Stmt*
 Builder::make_break()
@@ -150,6 +162,7 @@ Builder::make_continue()
 	return f.continue_s();
 }
 
+//TODO
 Stmt*
 Builder::make_return(Expr* e)
 {
@@ -159,8 +172,66 @@ Builder::make_return(Expr* e)
 Stmt*
 Builder::make_block(std::initializer_list<Stmt*> ss)
 {
-
-
-	return f.break_s();
+	return f.compound_s(ss);
 }
 
+Stmt*
+Builder::make_if(Expr* e ,Stmt* s1,Stmt* s2)
+{
+	require_bool(e);
+
+	return f.if_s(e,s1,s2);
+}
+
+Stmt* 
+Builder::make_while(Expr* e, Stmt* s)
+{
+	require_bool(e);
+
+	return f.while_s(e,s);
+}
+
+Stmt*
+Builder::make_expr(Expr* e)
+{
+	return f.expr_s(e);
+}
+
+Stmt*
+Builder::make_decl(Decl* d)
+{
+	return f.decl_s(d);
+}
+
+
+
+//Declarations
+Decl*
+Builder::make_var(std::string name, Type* t, Expr* e)
+{
+	if(t->is_ref()){
+		Ref_type* ref = static_cast<Ref_type*>(t);
+
+		return f.var_d(name,ref->get_ref_type(),e);
+	}
+
+	return f.var_d(name,t,e);
+}
+
+Decl*
+Builder::make_ref(std::string name, Type* t, Expr* e)
+{
+	if(t->is_ref()){
+		Ref_type* ref = static_cast<Ref_type*>(t);
+
+		return f.ref_d(name,ref->get_ref_type(),e);
+	}
+
+	return f.ref_d(name,t,e);
+}
+
+Decl*
+Builder::make_func(std::string name, Type* t,Stmt* s)
+{
+	return f.func_d(name,t,s);
+}

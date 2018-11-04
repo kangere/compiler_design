@@ -24,14 +24,6 @@ indent_func(int indent,std::ostream& out)
 	}
 }
 
-//skip line  and indent output stream
-static void
-skipl_indent(int indent,std::ostream& out)
-{
-	skipl(out);
-	indent_func(indent,out);
-}
-
 
 //Util functions for debugging expressions 
 static void

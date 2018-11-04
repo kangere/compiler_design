@@ -78,6 +78,10 @@ public:
 	:Stmt(compound_stmt)
 	{}
 
+	Compound_stmt(std::initializer_list<Stmt*> l)
+	:Stmt(compound_stmt), stmt_list(l)
+	{}
+
 	void add_stmt(Stmt* s)
 	{stmt_list.push_back(s);}
 
