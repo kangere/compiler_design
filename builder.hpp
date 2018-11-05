@@ -14,12 +14,13 @@ private:
 	Ast_Factory f;
 
 	//util functions
-	void require_bool(Expr*);
+	Expr* require_bool(Expr*);
 	Expr* convert_value(Expr*);
-	void require_same(Expr*,Expr*);
-	void is_same_arithmetic(Expr*,Expr*);
+	std::pair<Expr*,Expr*> require_same(Expr*,Expr*);
+	std::pair<Expr*,Expr*> is_same_arithmetic(Expr*,Expr*);
 	Expr* require_arithmetic(Expr*);
-	void require_ref(Expr*);
+	Expr* require_ref(Expr*);
+	Expr* require_function(Expr*);
 
 public:
 
@@ -78,7 +79,7 @@ public:
 
 	Expr* make_id(Decl* d, Type* t);
 
-	Expr* make_call();
+	Expr* make_call(std::initializer_list<Expr*>);
 
 
 	//Statements

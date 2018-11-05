@@ -1,5 +1,6 @@
 #include "builder.hpp"
 #include <iostream>
+#include <utility>
 
 //util functions
 Expr*
@@ -16,7 +17,7 @@ Builder::convert_value(Expr* e)
 	return e;
 }
 
-void 
+Expr*
 Builder::require_bool(Expr* e)
 {
 	e = convert_value(e);
@@ -27,9 +28,11 @@ Builder::require_bool(Expr* e)
 		std::cerr << "type bool required, actual" << *(e->get_type()) << std::endl;
 		++errors;
 	}
+
+	return e;
 }
 
-void 
+std::pair<Expr*,Expr*>
 Builder::require_same(Expr* e1, Expr* e2)
 {
 	e1 = convert_value(e1);
@@ -39,6 +42,8 @@ Builder::require_same(Expr* e1, Expr* e2)
 		std::cerr << "Type: " << *(e1->get_type()) << " is not same as " << *(e2->get_type()) << std::endl;
 		++errors;
 	}
+
+	return std::pair(e1,e2);
 }
 
 Expr*
@@ -51,7 +56,8 @@ Builder::require_arithmetic(Expr* e)
 
 	return e;
 }
-void
+
+std::pair<Expr*,Expr*>
 Builder::is_same_arithmetic(Expr* e1, Expr* e2)
 {
 	//convert values
@@ -67,14 +73,27 @@ Builder::is_same_arithmetic(Expr* e1, Expr* e2)
 
 
 	//ensure same type
-	require_same(e1,e2);
+	return require_same(e1,e2);
 }
 
-void 
+Expr* 
 Builder::require_ref(Expr* e)
 {
 	if(!(e->get_type())->is_ref()){
 		std::cerr << " Ref type expected, actual: " << *(e->get_type()) << std::endl;
 		++errors;
 	}
+
+	return e;
+}
+
+Expr*
+Builder::require_function(Expr* e)
+{
+	if(!(e->get_type())->is_func()){
+		std::cerr << "Expected Function Type, Actual: " << *(e->get_type()) << std::endl;
+		errors++;
+	}
+
+	return e;
 }

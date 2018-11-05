@@ -135,6 +135,10 @@ public:
 	: Expr(func_expr,t), mems(l)
 	{}
 
+	Func_expr(std::vector<Expr*> l ,Type* t)
+	: Expr(func_expr,t), mems(l)
+	{}
+
 	Expr* get_function() const
 	{ return mems.front();}
 

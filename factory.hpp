@@ -96,6 +96,9 @@ public:
 	Func_expr* call_e(std::initializer_list<Expr*> l, Type* t)
 	{return new Func_expr(l,t);}
 
+	Func_expr* call_e(std::vector<Expr*> l, Type* t)
+	{return new Func_expr(l,t);}
+
 
 	//DECLARATIONS
 	Var_decl* var_d(std::string name, Type* t, Expr* e)

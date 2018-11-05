@@ -26,6 +26,9 @@ public:
 	bool is_bool() const
 	{return m_kind == bool_type;}
 
+	bool is_func() const
+	{return m_kind == func_type;}
+
 
 protected:
 	Type(Kind k): m_kind(k) {}
@@ -83,7 +86,8 @@ private:
 
 public:
 	Func_type()
-	: Type(func_type){}
+	: Type(func_type)
+	{}
 
 	Func_type(Type* t)
 	:Type(func_type), return_type(t)

@@ -2,12 +2,13 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <tuple>
 
 Expr* 
 Builder::make_and(Expr* e1, Expr* e2)
 {
-	require_bool(e1);
-	require_bool(e2);	
+	e1 = require_bool(e1);
+	e2 = require_bool(e2);	
 
 	return f.and_e(e1,e2);
 }
@@ -15,8 +16,8 @@ Builder::make_and(Expr* e1, Expr* e2)
 Expr*
 Builder::make_or(Expr* e1, Expr* e2)
 {
-	require_bool(e1);
-	require_bool(e2);
+	e1 = require_bool(e1);
+	e2 = require_bool(e2);
 
 	return f.or_e(e1,e2);	
 }
@@ -25,7 +26,7 @@ Expr*
 Builder::make_lneg(Expr* e)
 {
 	
-	require_bool(e);
+	e = require_bool(e);
 
 	return f.lneg_e(e,f.bool_t());
 }
@@ -34,12 +35,12 @@ Builder::make_lneg(Expr* e)
 Expr*
 Builder::make_conditional(Expr* e1, Expr* e2, Expr* e3)
 {
-	require_bool(e1);
+	e1 = require_bool(e1);
 
 	e2 = convert_value(e2);
 	e3 = convert_value(e3);
 
-	require_same(e2,e3);
+	std::tie(e2,e3) = require_same(e2,e3);
 
 	return f.cond_e(e1,e2,e3,e2->get_type());
 }
@@ -47,21 +48,21 @@ Builder::make_conditional(Expr* e1, Expr* e2, Expr* e3)
 Expr*
 Builder::make_eq(Expr* e1, Expr* e2)
 {
-	require_same(e1,e2);
+	std::tie(e1,e2) = require_same(e1,e2);
 	return f.eq_e(e1,e2);
 }
 
 Expr*
 Builder::make_neq(Expr* e1, Expr* e2)
 {
-	require_same(e1,e2);
+	std::tie(e1,e2) = require_same(e1,e2);
 	return f.neq_e(e1,e2);	
 }
 
 Expr*
 Builder::make_gt(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.gt_e(e1,e2);
 }
@@ -69,7 +70,7 @@ Builder::make_gt(Expr* e1, Expr* e2)
 Expr*
 Builder::make_lt(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.lt_e(e1,e2);
 }
@@ -77,7 +78,7 @@ Builder::make_lt(Expr* e1, Expr* e2)
 Expr*
 Builder::make_gteq(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.gteq_e(e1,e2);
 }
@@ -85,7 +86,7 @@ Builder::make_gteq(Expr* e1, Expr* e2)
 Expr*
 Builder::make_lteq(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.lteq_e(e1,e2);
 }
@@ -93,7 +94,7 @@ Builder::make_lteq(Expr* e1, Expr* e2)
 Expr*
 Builder::make_add(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.add_e(e1,e2,e1->get_type());
 }
@@ -101,7 +102,7 @@ Builder::make_add(Expr* e1, Expr* e2)
 Expr*
 Builder::make_sub(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.sub_e(e1,e2,e1->get_type());
 }
@@ -109,7 +110,7 @@ Builder::make_sub(Expr* e1, Expr* e2)
 Expr*
 Builder::make_mult(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.mult_e(e1,e2,e1->get_type());
 }
@@ -117,7 +118,7 @@ Builder::make_mult(Expr* e1, Expr* e2)
 Expr*
 Builder::make_div(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.div_e(e1,e2,e1->get_type());
 }
@@ -125,7 +126,7 @@ Builder::make_div(Expr* e1, Expr* e2)
 Expr*
 Builder::make_rem(Expr* e1, Expr* e2)
 {
-	is_same_arithmetic(e1,e2);
+	std::tie(e1,e2) = is_same_arithmetic(e1,e2);
 
 	return f.rem_e(e1,e2,e1->get_type());
 }
@@ -142,11 +143,25 @@ Expr*
 Builder::make_assignment(Expr* e1,Expr* e2)
 {
 
-	require_ref(e1);
+	e1 = require_ref(e1);
 
 	e2 = convert_value(e2);
 
 	return f.assign_e(e1,e2,new Ref_type(e2->get_type())); 
+}
+
+//TODO finish impl
+Expr*
+Builder::make_call(std::initializer_list<Expr*> l)
+{
+	std::vector<Expr*> vec(l);
+
+	Expr* fe = vec[0];
+	fe = require_function(fe);
+
+	Func_type* ft = static_cast<Func_type*>(fe->get_type());
+
+	return f.call_e(vec,ft->get_return());
 }
 
 //Statements
