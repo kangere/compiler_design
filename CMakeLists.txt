@@ -15,4 +15,8 @@ add_executable(ast
 	sample.cpp
 	factory.cpp
 	builder.cpp
-	builder.util.cpp)
+	builder.util.cpp
+	symbol.cpp
+	location.cpp
+	token.cpp
+	lexer.cpp)
