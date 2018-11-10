@@ -7,6 +7,10 @@ class token{
 
 public:
 	enum type{
+		//misc
+		eof,
+
+
 		identifier,
 
 		//punctuators
@@ -82,7 +86,9 @@ public:
 	location get_location() const
 	{return m_loc;}
 
-
+	bool is_eof() const
+	{return m_type == eof;}
+	
 	bool is_arithmetic() const;
 
 	bool is_relational() const;

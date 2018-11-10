@@ -49,8 +49,12 @@ namespace std
 	};
 }
 
-class symbol_table: std::unordered_set<symbol>{
-
+class symbol_table: public std::unordered_set<symbol>{
+public:
+	symbol get(std::string& n)
+	{
+		return *(emplace(n).first);
+	}
 };
 
 
