@@ -19,6 +19,13 @@ static bool
 is_nondigit_or_digit(char c)
 { return is_digit(c) ||  is_nondigit(c);}
 
+static bool
+is_int_char(char c)
+{ return  c == 'x' or c == 'X' or c=='b' or c == 'B';}
+
+static bool
+is_float_char(char c)
+{ return   c == 'e' or c == 'E' or c == '+' or c == '-';}
 
 lexer::lexer(symbol_table& sys,char const* f, char const* e)
 :m_table(&sys), m_first(f), m_end(e), m_line(1),m_col(1)
@@ -169,10 +176,9 @@ lexer::next_token()
 				if(is_nondigit(*m_first))
 					return gen_word();
 
-				/**TODO implement number token generation
 				if(is_digit(*m_first))
 					return gen_number();
-				**/
+				
 				if(eof())
 					return gen_token(token::eof,1);
 
@@ -214,10 +220,50 @@ lexer::gen_word()
 
 	//advance lexer
 	m_first = end;
-	
+
 	return token(s,location(m_line,m_col - len),t);
 }
 
+token
+lexer::gen_number()
+{
+
+	char const* end = m_first+1;
+	int len = 1;
+	token::type t = token::int_lit;
+
+	while(true)
+	{
+		while(!eof() and is_digit(*end)){
+			++end;
+			++len;
+		}
+
+		if(*end == '.'){
+			t = token::float_lit;
+			++end;
+			++len;
+			continue;
+		}
+
+		if(!is_int_char(*end) or !is_float_char(*end))
+			break;	
+
+		++end;
+		++len;
+	}
+
+	m_col += len;
+
+	std::string num(m_first,end);
+	symbol s = m_table->get(num);
+
+	//advance lexer
+	m_first = end;
+
+	return token(s,location(m_line,m_col - len),t);
+	
+}
 
 
 
