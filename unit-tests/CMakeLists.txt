@@ -13,8 +13,15 @@ add_executable(tests
 	../debug.cpp
 	../s_expr.cpp
 	../factory.cpp
+	../builder.cpp
+	../builder.util.cpp
+	../symbol.cpp
+	../location.cpp
+	../token.cpp
+	../lexer.cpp
 	tests-main.cpp
 	tests-expression.cpp
 	tests-declarations.cpp
 	tests-stmts.cpp
-	tests-factory.cpp )
+	tests-factory.cpp
+	tests-lexer.cpp )

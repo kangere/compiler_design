@@ -3,6 +3,8 @@
 #include "symbol.hpp"
 #include "location.hpp"
 
+#include <iosfwd>
+
 class token{
 
 public:
@@ -77,6 +79,8 @@ public:
 	:m_lexme(s), m_loc(l), m_type(t)
 	{}
 
+	explicit operator bool() const { return m_type != eof; }
+
 	type get_type() const
 	{return m_type;}
 
@@ -105,3 +109,5 @@ public:
 	int column() const
 	{return m_loc.column();}
 };
+
+std::ostream& operator<<(std::ostream&,token const&);

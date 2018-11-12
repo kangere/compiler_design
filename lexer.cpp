@@ -40,6 +40,7 @@ lexer::lexer(symbol_table& sys,char const* f, char const* e)
 	m_kws.emplace("if", token::if_kw);
 	m_kws.emplace("int", token::int_kw);
 	m_kws.emplace("not", token::not_kw);
+	m_kws.emplace("let", token::let_kw);
 	m_kws.emplace("or", token::or_kw);
 	m_kws.emplace("ref", token::ref_kw);
 	m_kws.emplace("return", token::return_kw);
@@ -207,8 +208,8 @@ lexer::gen_word()
 	m_col += len;
 
 	std::string id(m_first,end);
-	symbol s = m_table->get(id);
-
+	auto pair = m_table->insert(symbol(id));
+	symbol s = *(pair.first);
 	token::type t;
 
 	auto iter = m_kws.find(id);

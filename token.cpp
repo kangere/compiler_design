@@ -1,5 +1,7 @@
 #include "token.hpp"
 
+#include <iostream>
+
 bool
 token::is_arithmetic() const
 {
@@ -48,4 +50,9 @@ token::is_punctuation() const
 			(m_type == semi_colon) ||
 			(m_type == colon) ||
 			(m_type == arrow);
+}
+
+std::ostream&
+operator<<(std::ostream& os, token const& t){
+	os << t.get_lexme().str();
 }
