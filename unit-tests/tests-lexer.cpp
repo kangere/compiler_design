@@ -12,6 +12,7 @@ TEST_CASE("Lexer Tests","[Lexer]"){
 	std::ifstream ifs("sam.mc", std::ios::in);
 
 	if(ifs.is_open()){
+
 		std::istreambuf_iterator<char> first(ifs);
 		std::istreambuf_iterator<char> limit;
 		std::string input(first, limit);
@@ -20,10 +21,14 @@ TEST_CASE("Lexer Tests","[Lexer]"){
 
 		lexer lex(syms,input);
 
+		
 		while(token t = lex.next_token()){
+			
 			std::cout << t << " line: " << t.line_number() 
 			<< " column: " << t.column() <<std::endl;
-		}	
+
+		}
+
 	} else {
 		std::cout << "unable to open file\n";
 	}

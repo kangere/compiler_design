@@ -55,4 +55,6 @@ token::is_punctuation() const
 std::ostream&
 operator<<(std::ostream& os, token const& t){
 	os << t.get_lexme().str();
+
+	return os;
 }

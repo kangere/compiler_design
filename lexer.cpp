@@ -120,6 +120,12 @@ lexer::next_token()
 				consume();
 				continue;
 
+			//eliminate comments
+			case '#':
+				while(peek() != '\n')
+					consume();
+				continue;
+
 			//punctuations
 			case '(':
 				return gen_token(token::lparen,1);
@@ -197,19 +203,17 @@ token
 lexer::gen_word()
 {
 	char const* end = m_first+1;
-	int len = 1;
+	location l(m_line,m_col+1);
 
 	while(!eof(end) && is_nondigit_or_digit(*end)){
 		++end;
-		++len;
+		++m_col;
 	}
 
-	//increment column to length of word
-	m_col += len;
 
 	std::string id(m_first,end);
-	auto pair = m_table->insert(symbol(id));
-	symbol s = *(pair.first);
+	symbol s = m_table->get(id);
+
 	token::type t;
 
 	auto iter = m_kws.find(id);
@@ -222,7 +226,7 @@ lexer::gen_word()
 	//advance lexer
 	m_first = end;
 
-	return token(s,location(m_line,m_col - len),t);
+	return token(s,l,t);
 }
 
 token
@@ -230,20 +234,20 @@ lexer::gen_number()
 {
 
 	char const* end = m_first+1;
-	int len = 1;
 	token::type t = token::int_lit;
+	location l(m_line,m_col+1);
 
 	while(true)
 	{
 		while(!eof() and is_digit(*end)){
 			++end;
-			++len;
+			++m_col;
 		}
 
 		if(*end == '.'){
 			t = token::float_lit;
 			++end;
-			++len;
+			++m_col;
 			continue;
 		}
 
@@ -251,10 +255,9 @@ lexer::gen_number()
 			break;	
 
 		++end;
-		++len;
+		++m_col;
 	}
 
-	m_col += len;
 
 	std::string num(m_first,end);
 	symbol s = m_table->get(num);
@@ -262,7 +265,7 @@ lexer::gen_number()
 	//advance lexer
 	m_first = end;
 
-	return token(s,location(m_line,m_col - len),t);
+	return token(s,l,t);
 	
 }
 
