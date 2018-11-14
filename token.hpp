@@ -67,6 +67,7 @@ public:
 		bool_lit,
 		int_lit,
 		float_lit,
+		invalid_num
 			
 	};
 private:
@@ -102,6 +103,8 @@ public:
 	bool is_literal() const;
 
 	bool is_punctuation() const;
+
+	bool is_invalid_num() const { return m_type == invalid_num;} 
 
 	int line_number() const
 	{return m_loc.row();}

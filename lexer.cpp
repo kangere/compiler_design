@@ -1,6 +1,7 @@
 #include "lexer.hpp"
 #include <iostream>
 #include <cctype>
+#include <regex>
 
 //util functions
 static bool
@@ -11,21 +12,37 @@ static bool
 is_nondigit(char c)
 { return std::isalpha(c) || c == '_';}
 
-static bool
-is_hex(char c)
-{return std::isxdigit(c);}
 
 static bool
 is_nondigit_or_digit(char c)
 { return is_digit(c) ||  is_nondigit(c);}
 
-static bool
-is_int_char(char c)
-{ return  c == 'x' or c == 'X' or c=='b' or c == 'B';}
 
-static bool
-is_float_char(char c)
-{ return   c == 'e' or c == 'E' or c == '+' or c == '-';}
+// integer literal regex checker 
+static
+bool is_int(std::string num)
+{
+	
+	std::regex dec_reg("[[:digit:]]+");
+	std::regex hex_reg("(0(x|X)[[:xdigit:]]+)");
+	std::regex bin_reg("(0(b|B)[01]+)");
+	
+	return std::regex_match(num,dec_reg) or
+			std::regex_match(num,hex_reg) or
+			std::regex_match(num,bin_reg);
+}
+
+
+//float literal regex checker
+static
+bool is_float(std::string num)
+{
+
+	std::regex float_reg("([[:d:]]+.[[:d:]]+[[e|E][+|-]?[[:d:]]+]?)");
+
+	return std::regex_match(num,float_reg);
+}
+
 
 lexer::lexer(symbol_table& sys,char const* f, char const* e)
 :m_table(&sys), m_first(f), m_end(e), m_line(1),m_col(1)
@@ -86,7 +103,14 @@ lexer::next_token()
 		
 		switch(peek())
 		{
-			case ' ':
+			case ' ': 
+			case '\b':
+			case '\f':
+			case '\r':
+			case '\v':
+			case '\\':
+			case '\'':
+			case '\"':
 				consume();
 				continue;
 			case '\t':
@@ -98,28 +122,6 @@ lexer::next_token()
 				m_col = 1;
 				consume();
 				continue;
-			case '\b':
-				consume();
-				continue;
-			case '\f':
-				consume();
-				continue;
-			case '\r':
-				consume();
-				continue;
-			case '\v':
-				consume();
-				continue;
-			case '\\':
-				consume();
-				continue;
-			case '\'':
-				consume();
-				continue;
-			case '\"':
-				consume();
-				continue;
-
 			//eliminate comments
 			case '#':
 				while(peek() != '\n')
@@ -229,43 +231,36 @@ lexer::gen_word()
 	return token(s,l,t);
 }
 
+
+//TODO: check for ill-formed numbers
 token
 lexer::gen_number()
 {
 
 	char const* end = m_first+1;
-	token::type t = token::int_lit;
 	location l(m_line,m_col+1);
 
-	while(true)
-	{
-		while(!eof() and is_digit(*end)){
-			++end;
-			++m_col;
-		}
-
-		if(*end == '.'){
-			t = token::float_lit;
-			++end;
-			++m_col;
-			continue;
-		}
-
-		if(!is_int_char(*end) or !is_float_char(*end))
-			break;	
-
+	//loop until space or eof is reached
+	while(!eof() and !std::isspace(*end)){
 		++end;
 		++m_col;
 	}
 
-
 	std::string num(m_first,end);
-	symbol s = m_table->get(num);
+	
+	token::type t;
+
+	if(is_int(num))
+		t = token::int_lit;
+	else if(is_float(num))
+		t = token::float_lit;
+	else
+		t = token::invalid_lit;
 
 	//advance lexer
 	m_first = end;
 
-	return token(s,l,t);
+	return token(symbol(num),l,t);
 	
 }
 
