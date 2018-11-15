@@ -17,10 +17,14 @@ static bool
 is_nondigit_or_digit(char c)
 { return is_digit(c) ||  is_nondigit(c);}
 
+static 
+bool valid_num_char(char c)
+{ return std::isxdigit(c) or c == 'x' or c == 'X' or c == 'b' or c == 'B' 
+		or c == '.' or c == '+' or c == '-';}
 
-// integer literal regex checker 
+//validate integer 
 static
-bool is_int(std::string num)
+bool is_valid_int(std::string num)
 {
 	
 	std::regex dec_reg("[[:digit:]]+");
@@ -33,12 +37,12 @@ bool is_int(std::string num)
 }
 
 
-//float literal regex checker
+//validate float
 static
-bool is_float(std::string num)
+bool is_valid_float(std::string num)
 {
 
-	std::regex float_reg("([[:d:]]+.[[:d:]]+[[e|E][+|-]?[[:d:]]+]?)");
+	std::regex float_reg("([[:d:]]+(\\.)[[:d:]]+([e|E][+|-]?[[:d:]]+)?)");
 
 	return std::regex_match(num,float_reg);
 }
@@ -189,7 +193,7 @@ lexer::next_token()
 					return gen_number();
 				
 				if(eof())
-					return gen_token(token::eof,1);
+					return token();
 
 				std::cerr << "error:" << m_line << ":" << m_col << std::endl;
 				std::cerr << " invalid character: " << m_first<< std::endl;
@@ -232,7 +236,6 @@ lexer::gen_word()
 }
 
 
-//TODO: check for ill-formed numbers
 token
 lexer::gen_number()
 {
@@ -240,22 +243,25 @@ lexer::gen_number()
 	char const* end = m_first+1;
 	location l(m_line,m_col+1);
 
-	//loop until space or eof is reached
-	while(!eof() and !std::isspace(*end)){
+	
+	
+	while(!eof() and (is_digit(*end) or valid_num_char(*end))){
 		++end;
 		++m_col;
 	}
+	
+
 
 	std::string num(m_first,end);
 	
 	token::type t;
 
-	if(is_int(num))
+	if(is_valid_int(num))
 		t = token::int_lit;
-	else if(is_float(num))
+	else if(is_valid_float(num))
 		t = token::float_lit;
 	else
-		t = token::invalid_lit;
+		t = token::invalid_num;
 
 	//advance lexer
 	m_first = end;

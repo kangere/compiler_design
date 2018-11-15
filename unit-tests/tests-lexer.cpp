@@ -31,7 +31,48 @@ TEST_CASE("Lexer Tests","[Lexer]"){
 
 	} else {
 		std::cout << "unable to open file\n";
-	}
 	
+	}
 
+
+	ifs.close();	
+
+}
+
+TEST_CASE("Lexer Literals test","[Lexer]"){
+
+	std::ifstream ifs("nums.mc", std::ios::in);
+
+	if(ifs.is_open()){
+
+		std::istreambuf_iterator<char> first(ifs);
+		std::istreambuf_iterator<char> limit;
+		std::string input(first, limit);
+
+		symbol_table syms;
+
+		lexer lex(syms,input);
+
+		
+		CHECK(lex.next_token().get_type() == token::int_lit);
+		CHECK(lex.next_token().get_type() == token::int_lit);
+		CHECK(lex.next_token().get_type() == token::int_lit);
+		CHECK(lex.next_token().get_type() == token::int_lit);
+		CHECK(lex.next_token().get_type() == token::int_lit);
+
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+		CHECK(lex.next_token().get_type() == token::float_lit);
+
+	} else {
+		std::cout << "unable to open file\n";
+	}
+
+	ifs.close();
 }

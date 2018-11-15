@@ -6,6 +6,9 @@ private:
 	unsigned int m_column;
 
 public:
+	location()
+	{}
+	
 	location(unsigned int row, unsigned int col)
 	:m_row(row), m_column(col)
 	{}

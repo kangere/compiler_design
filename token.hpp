@@ -76,6 +76,11 @@ private:
 	type m_type;
 
 public:
+	//default token is an end of file token
+	token()
+	:m_lexme(),m_loc(),m_type(eof)
+	{}
+
 	token(symbol s, location l, type t)
 	:m_lexme(s), m_loc(l), m_type(t)
 	{}

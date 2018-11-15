@@ -10,6 +10,10 @@ private:
 	std::string m_str;
 
 public:
+	symbol()
+	:m_str()
+	{}
+	
 	symbol(std::string name)
 	:m_str(name)
 	{}
