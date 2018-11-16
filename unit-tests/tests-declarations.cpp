@@ -1,4 +1,4 @@
-#include "../decl.hpp"
+#include "decl.hpp"
 #include "catch.hpp"
 #include <iostream>
 

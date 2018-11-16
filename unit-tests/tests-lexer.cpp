@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../lexer.hpp"
+#include "lexer.hpp"
 
 #include <iterator>
 #include <iostream>

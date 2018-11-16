@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../factory.hpp"
+#include "factory.hpp"
 #include <iostream>
 
 TEST_CASE("Expression factory tests","[Expressions]"){

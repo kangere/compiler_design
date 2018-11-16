@@ -1,22 +1,12 @@
-project(ast CXX)
-
 cmake_minimum_required(VERSION 3.5)
+
+project(cmp CXX)
+
+
 
 set(CMAKE_CXX_FLAGS "-std=c++1z")
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
-add_executable(ast 
-	type.cpp
-	expr.cpp
-	decl.cpp
-	stmt.cpp
-	debug.cpp
-	s_expr.cpp
-	sample.cpp
-	factory.cpp
-	builder.cpp
-	builder.util.cpp
-	symbol.cpp
-	location.cpp
-	token.cpp
-	lexer.cpp)
+add_subdirectory(include)
+add_subdirectory(unit-tests)
+add_subdirectory(src)

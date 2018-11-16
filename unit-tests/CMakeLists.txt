@@ -1,27 +1,13 @@
-project(tests CXX)
-
-cmake_minimum_required(VERSION 3.5)
-
-set(CMAKE_CXX_FLAGS "-std=c++1z")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
-
 add_executable(tests 
-	../type.cpp
-	../expr.cpp
-	../decl.cpp
-	../stmt.cpp
-	../debug.cpp
-	../s_expr.cpp
-	../factory.cpp
-	../builder.cpp
-	../builder.util.cpp
-	../symbol.cpp
-	../location.cpp
-	../token.cpp
-	../lexer.cpp
 	tests-main.cpp
 	tests-expression.cpp
 	tests-declarations.cpp
 	tests-stmts.cpp
 	tests-factory.cpp
 	tests-lexer.cpp )
+
+target_link_libraries(tests LINK_PUBLIC include)
+
+add_custom_command(TARGET tests POST_BUILD 
+					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/sam.mc $<TARGET_FILE_DIR:tests>
+					COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_SOURCE_DIR}/nums.mc $<TARGET_FILE_DIR:tests>)
