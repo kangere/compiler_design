@@ -46,9 +46,8 @@ namespace std
 	{
 		typedef std::size_t  result;
 		result operator()(symbol const& s) const noexcept
-		{
+		{	
 			result const h = std::hash<std::string>{}(s.str());
-
 			return h;
 		}
 	};
