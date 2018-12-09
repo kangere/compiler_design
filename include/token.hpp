@@ -18,8 +18,8 @@ public:
 		//punctuators
 		lparen,
 		rparen,
-		lbrack,
-		rbrack,
+		lbrace,
+		rbrace,
 		comma,
 		semi_colon,
 		colon,
@@ -86,6 +86,9 @@ public:
 	{}
 
 	explicit operator bool() const { return m_type != eof; }
+
+	bool is(type t) const 
+	{return m_type == t;}
 
 	type get_type() const
 	{return m_type;}

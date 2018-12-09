@@ -34,7 +34,7 @@ public:
 	{ return new Float_expr(f);}
 
 	Id_expr* id_e(Decl* d, Type* t)
-	{ return new Id_expr(d, new Ref_type(t));}
+	{ return new Id_expr(d, t);}
 
 	//Unary Operations Expressions
 	Logneg_expr* lneg_e(Expr* e, Type* t)
@@ -101,6 +101,9 @@ public:
 
 
 	//DECLARATIONS
+	Var_decl* var_d(std::string name, Type* t)
+	{ return new Var_decl(name,t); }
+	
 	Var_decl* var_d(std::string name, Type* t, Expr* e)
 	{ return new Var_decl(name,t,e);}
 
@@ -109,6 +112,9 @@ public:
 
 	Func_decl* func_d(std::string name, Type* t,Stmt* s)
 	{ return new Func_decl(name,t,s); }
+
+	Func_decl* func_d(std::string name, Type* t)
+	{ return new Func_decl(name,t); }
 
 
 
@@ -125,6 +131,9 @@ public:
 	Compound_stmt* compound_s(std::initializer_list<Stmt*> ss)
 	{ return new Compound_stmt(ss);}
 
+	Compound_stmt* compound_s(std::vector<Stmt*> s)
+	{ return new Compound_stmt(s);}
+
 	Expr_stmt* expr_s(Expr* e)
 	{ return new Expr_stmt(e);}
 
@@ -140,6 +149,9 @@ public:
 
 	Decl_stmt* decl_s(Decl* d)
 	{return new Decl_stmt(d);}
+
+	Skip_stmt* skip_s()
+	{return new Skip_stmt();}
 
 
 };

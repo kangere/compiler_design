@@ -46,6 +46,14 @@ Builder::make_conditional(Expr* e1, Expr* e2, Expr* e3)
 }
 
 Expr*
+Builder::make_id(Decl* d)
+{
+	Expr* e = f.id_e(d,d->get_type());
+	 
+	return convert_value(e);
+}
+
+Expr*
 Builder::make_eq(Expr* e1, Expr* e2)
 {
 	std::tie(e1,e2) = require_same(e1,e2);
@@ -140,6 +148,14 @@ Builder::make_neg(Expr* e)
 }
 
 Expr*
+Builder::make_reciprocal(Expr* e)
+{
+	e = require_arithmetic(e);
+
+	return f.rec_e(e,e->get_type());
+}
+
+Expr*
 Builder::make_assignment(Expr* e1,Expr* e2)
 {
 
@@ -150,18 +166,24 @@ Builder::make_assignment(Expr* e1,Expr* e2)
 	return f.assign_e(e1,e2,new Ref_type(e2->get_type())); 
 }
 
-//TODO finish impl
+
 Expr*
 Builder::make_call(std::initializer_list<Expr*> l)
 {
-	std::vector<Expr*> vec(l);
+	return make_call(std::vector<Expr*>(l));
+}
 
+Expr*
+Builder::make_call(std::vector<Expr*> vec)
+{
+	
 	Expr* fe = vec[0];
 	fe = require_function(fe);
 
 	Func_type* ft = static_cast<Func_type*>(fe->get_type());
 
 	return f.call_e(vec,ft->get_return());
+
 }
 
 //Statements
@@ -189,6 +211,13 @@ Builder::make_block(std::initializer_list<Stmt*> ss)
 {
 	return f.compound_s(ss);
 }
+
+Stmt*
+Builder::make_block(std::vector<Stmt*> ss)
+{
+	return f.compound_s(ss);
+}
+
 
 Stmt*
 Builder::make_if(Expr* e ,Stmt* s1,Stmt* s2)
@@ -234,6 +263,18 @@ Builder::make_var(std::string name, Type* t, Expr* e)
 }
 
 Decl*
+Builder::make_var(std::string name, Type* t)
+{
+	if(t->is_ref()){
+		Ref_type* ref = static_cast<Ref_type*>(t);
+
+		return f.var_d(name,ref->get_ref_type());
+	}
+
+	return f.var_d(name,t);
+}
+
+Decl*
 Builder::make_ref(std::string name, Type* t, Expr* e)
 {
 	if(t->is_ref()){
@@ -249,4 +290,10 @@ Decl*
 Builder::make_func(std::string name, Type* t,Stmt* s)
 {
 	return f.func_d(name,t,s);
+}
+
+Decl*
+Builder::make_func(std::string name, Type* t)
+{
+	return f.func_d(name,t);
 }

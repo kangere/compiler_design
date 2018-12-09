@@ -44,8 +44,8 @@ token::is_punctuation() const
 {
 	return (m_type == lparen) ||
 			(m_type == rparen) ||
-			(m_type == lbrack) ||
-			(m_type == rbrack) ||
+			(m_type == lbrace) ||
+			(m_type == rbrace) ||
 			(m_type == comma) ||
 			(m_type == semi_colon) ||
 			(m_type == colon) ||

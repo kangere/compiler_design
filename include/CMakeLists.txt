@@ -13,7 +13,11 @@ add_library(include
 	location.cpp
 	token.cpp
 	lexer.cpp
-	parser.cpp)
+	parser.cpp
+	parser.expr.cpp
+	parser.stmt.cpp
+	parser.decl.cpp
+	actions.cpp)
 
 #Link library
 target_include_directories(include PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

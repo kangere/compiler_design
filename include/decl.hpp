@@ -47,9 +47,15 @@ private:
 	Expr* m_exp;
 
 public:
+	Var_decl(std::string name, Type* t)
+	: Decl(name,t,var_decl)
+	{}
+
 	Var_decl(std::string name, Type* t, Expr* e)
 	: Decl(name,t,var_decl), m_exp(e) 
 	{}
+
+	void set_initializer(Expr* e) { m_exp = e; }
 
 	Expr* get_expr() const {return m_exp;}
 
@@ -79,10 +85,17 @@ private:
 	std::vector<Decl*> param_list;
 
 public:
+	Func_decl(std::string name, Type* t)
+	:Func_decl(name,t,nullptr)
+	{}
+
 	Func_decl(std::string name, Type* t,Stmt* s)
 	:Decl(name,t,func_decl) , m_stmt(s)
 	{}
 
+	void set_param_list(std::vector<Decl*> list) { param_list = list;}
+	void set_block_stmt(Stmt* block){ m_stmt = block; }
+	
 	void add_param(Decl* d) 
 	{param_list.push_back(d);}
 

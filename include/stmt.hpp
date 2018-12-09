@@ -20,7 +20,8 @@ public:
 		if_stmt,
 		return_stmt,
 		expr_stmt,
-		decl_stmt
+		decl_stmt,
+		skip_stmt
 	};
 
 	Stmt(kind k)
@@ -79,7 +80,11 @@ public:
 	{}
 
 	Compound_stmt(std::initializer_list<Stmt*> l)
-	:Stmt(compound_stmt), stmt_list(l)
+	:Compound_stmt(std::vector<Stmt*>(l))
+	{}
+
+	Compound_stmt(std::vector<Stmt*> v)
+	:Stmt(compound_stmt), stmt_list(v)
 	{}
 
 	void add_stmt(Stmt* s)
@@ -148,6 +153,16 @@ public:
 
 	Decl* get_decl() const { return m_decl;}
 };
+
+class Skip_stmt : public Stmt
+{
+public:
+	Skip_stmt()
+	:Stmt(skip_stmt)
+	{}
+};
+
+
 
 
 void debug(std::ostream& os, Stmt* s,int indent = 0);

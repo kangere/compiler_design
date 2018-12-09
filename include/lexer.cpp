@@ -138,9 +138,9 @@ lexer::next_token()
 			case ')':
 				return gen_token(token::rparen,1);
 			case '{':
-				return gen_token(token::lbrack,1);
+				return gen_token(token::lbrace,1);
 			case '}':
-				return gen_token(token::rbrack,1);
+				return gen_token(token::rbrace,1);
 			case ',':
 				return gen_token(token::comma,1);
 			case ';':

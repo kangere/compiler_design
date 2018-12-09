@@ -28,6 +28,15 @@ public:
 	:errors(0)
 	{}
 
+	//Types
+	Type* int_type() { return f.int_t(); }
+
+	Type* float_type() { return f.float_t(); }
+
+	Type* bool_type() { return f.bool_t(); }
+
+	Type* func_type() { return f.func_t(); }
+
 	//return num errors
 	int num_errors() const
 	{ return errors;}
@@ -75,11 +84,14 @@ public:
 
 	Expr* make_neg(Expr* e);
 
+	Expr* make_reciprocal(Expr* e);
+
 	Expr* make_assignment(Expr* e1,Expr* e2);
 
-	Expr* make_id(Decl* d, Type* t);
+	Expr* make_id(Decl* d);
 
 	Expr* make_call(std::initializer_list<Expr*>);
+	Expr* make_call(std::vector<Expr*>);
 
 
 	//Statements
@@ -95,18 +107,24 @@ public:
 
 	Stmt* make_block(std::initializer_list<Stmt*>);
 
+	Stmt* make_block(std::vector<Stmt*>);
+
 	Stmt* make_expr(Expr* e);
 
 	Stmt* make_decl(Decl* d);
+
+	Stmt* skip(){ return f.skip_s();}
 
 
 	//Declarations
 
 	Decl* make_var(std::string,Type*,Expr*);
+	Decl* make_var(std::string,Type*);
 
 	Decl* make_ref(std::string,Type*,Expr*);
 
 	//Implement
 	Decl* make_func(std::string,Type*,Stmt*);
+	Decl* make_func(std::string,Type*);
 
 };

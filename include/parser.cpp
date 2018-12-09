@@ -53,4 +53,24 @@ parser::require(token::type n)
 	return consume();
 }
 
+Type*
+parser::parse_type()
+{	
+	token t = consume();
+
+	switch(t.get_type())
+	{
+		case token::int_kw:
+			return m_act.on_int_type();
+		case token::float_kw:
+			return m_act.on_float_type();
+		case token::bool_kw:
+			return m_act.on_bool_type();
+		case token::fun_kw:
+			return m_act.on_func_type();
+	}
+
+	throw std::runtime_error(t.get_lexme().str() + " is not a type");
+}
+
 
