@@ -32,10 +32,19 @@ token::is_logical() const
 }
 
 bool
+token::is_bool_lit() const
+{
+	return (m_type == true_kw) ||
+			(m_type == false_kw);
+}
+
+
+bool
 token::is_literal() const
 {
 	return (m_type == int_lit) ||
-			(m_type == bool_lit) ||
+			(m_type == true_kw) ||
+			(m_type == false_kw) ||
 			(m_type == float_lit);
 }
 

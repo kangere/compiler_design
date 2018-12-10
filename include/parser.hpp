@@ -103,7 +103,7 @@ public:
 
 
 	//Declarations
-	void parse_program();
+	std::vector<Decl*> parse_program();
 
 	Decl* parse_declaration_seq();
 

@@ -31,7 +31,7 @@ TEST_CASE("Expression factory tests","[Expressions]"){
 	CHECK( in->get_value() == 7);
 	CHECK( fl->get_value() == 6.7f);
 
-	CHECK( (id->get_type())->get_kind() == Type::ref_type);
+	CHECK( (id->get_type())->get_kind() == Type::int_type);
 	CHECK( (id->get_decl())->get_name() == "y");
 
 	CHECK( neg->get_kind() == Expr::unop_expr);

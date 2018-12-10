@@ -26,9 +26,13 @@ public:
 
 
 	//scope
-	void enter_scope(){ m_stack.emplace_back(); }
+	void enter_scope(){
+		 scope s;
+		 m_stack.push_back(s); 
+	}
 
-	void leave_scope() { m_stack.pop_back();}
+
+	void leave_scope(){ m_stack.pop_back(); }
 
 	scope get_current_scope() { return m_stack.back();}
 

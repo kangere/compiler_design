@@ -60,6 +60,7 @@ lexer::lexer(symbol_table& sys,char const* f, char const* e)
 	m_kws.emplace("fun", token::fun_kw);
 	m_kws.emplace("if", token::if_kw);
 	m_kws.emplace("int", token::int_kw);
+	m_kws.emplace("float", token::int_kw);
 	m_kws.emplace("not", token::not_kw);
 	m_kws.emplace("let", token::let_kw);
 	m_kws.emplace("or", token::or_kw);
@@ -97,7 +98,9 @@ lexer::peek() const
 char
 lexer::peek(int n) const
 {
-	return (m_end - m_first) >= n ? 0 : *(m_first + n);
+	char const *temp = m_first+n;
+
+	return  temp != m_end ? *(temp) : 0;
 }
 
 token
@@ -246,6 +249,17 @@ lexer::gen_number()
 	
 	
 	while(!eof() and (is_digit(*end) or valid_num_char(*end))){
+
+		if(*end == '+' or *end == '-'){
+			//check if previous char was 'e'
+			//indicating it was an exponent
+			
+			char const* previous = end - 1;
+
+			if(*previous != 'e' and *previous != 'E')
+				break;
+		}
+
 		++end;
 		++m_col;
 	}

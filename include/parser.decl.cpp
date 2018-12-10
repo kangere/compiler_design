@@ -1,17 +1,24 @@
 #include "parser.hpp"
 
 
-void
+std::vector<Decl*>
 parser::parse_program()
 {
+	std::vector<Decl*> declarations;
+
 	m_act.enter_scope();
-	Decl* d = parse_declaration_seq(); 
+	
+	while(Decl* d = parse_declaration_seq())
+		declarations.push_back(d);
+
 	m_act.leave_scope();
 }
 
 Decl*
 parser::parse_declaration_seq()
 {
+	if(is_eof())
+		return nullptr;
 
 	return parse_declaration();
 }
@@ -28,6 +35,8 @@ parser::parse_declaration()
 		case token::ref_kw:
 			return parse_reference_declaration();
 	}
+
+	throw std::runtime_error(m_lookahead->get_lexme().str() + " is not a declaration");
 }
 
 
@@ -43,10 +52,12 @@ parser::parse_variable_declaration()
 
 	Decl* var = m_act.on_variable_declaration(id,type);
 
-	if(match(token::equal)){
-		Expr* e = parse_expression();
+	if(next_token_is(token::equal)){
 
-		expect(token::semi_colon);
+		//consume equal
+		consume();
+
+		Expr* e = parse_expression();
 
 		var = m_act.finish_variable_declaration(var,e);
 	}
@@ -122,7 +133,11 @@ parser::parse_parameter_list()
 	//enter parameter scope
 	m_act.enter_scope();
 
-	while(match(token::comma)){
+	while(next_token_is(token::comma)){
+
+		//consume comma
+		consume();
+
 		Decl* d2 = parse_parameter();
 		params.push_back(d2);
 	}
@@ -136,11 +151,13 @@ parser::parse_parameter_list()
 Decl*
 parser::parse_parameter()
 {
-	token id = match(token::identifier);
+	if(token id = match(token::identifier)){
+		expect(token::colon);
 
-	expect(token::colon);
+		Type* type = parse_type();
 
-	Type* type = parse_type();
+		return m_act.on_variable_declaration(id,type);	
+	}
 
-	return m_act.on_variable_declaration(id,type);
+	return nullptr;
 }

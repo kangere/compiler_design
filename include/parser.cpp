@@ -41,7 +41,7 @@ parser::expect(token::type t)
 	if(next_token_is(t))
 		return consume();
 
-	throw std::runtime_error("syntax error");
+	throw std::runtime_error("syntax error: " + peek().get_lexme().str() + " not expected");
 
 	return token();
 }

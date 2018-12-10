@@ -70,6 +70,18 @@ actions::on_or_expression(Expr* e1, Expr* e2)
 }
 
 Expr*
+actions::on_and_expression(Expr* e1, Expr* e2)
+{
+	return m_builder.make_and(e1,e2);
+}
+
+Expr*
+actions::on_assignment_expression(Expr* e1, Expr* e2)
+{
+	return m_builder.make_assignment(e1,e2);
+}
+
+Expr*
 actions::on_equals_expression(Expr* e1,Expr* e2)
 {
 	return m_builder.make_eq(e1,e2);

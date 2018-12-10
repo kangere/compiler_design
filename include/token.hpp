@@ -64,7 +64,6 @@ public:
 		equal, //assignment operator
 
 		//literals
-		bool_lit,
 		int_lit,
 		float_lit,
 		invalid_num
@@ -107,6 +106,8 @@ public:
 	bool is_relational() const;
 
 	bool is_logical() const;
+
+	bool is_bool_lit() const;
 
 	bool is_literal() const;
 

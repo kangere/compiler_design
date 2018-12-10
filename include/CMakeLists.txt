@@ -17,7 +17,8 @@ add_library(include
 	parser.expr.cpp
 	parser.stmt.cpp
 	parser.decl.cpp
-	actions.cpp)
+	actions.cpp
+	scope.cpp)
 
 #Link library
 target_include_directories(include PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
