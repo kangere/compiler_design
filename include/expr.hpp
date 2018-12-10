@@ -58,6 +58,7 @@ public:
 	
 	kind get_kind() const { return m_kind; }
 	Type* get_type() const {return m_type; }
+	void set_type(Type* t) { m_type = t;}
 
 protected:
 	Expr(kind k) : m_kind(k) 

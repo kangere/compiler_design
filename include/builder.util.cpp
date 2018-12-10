@@ -77,14 +77,14 @@ Builder::is_same_arithmetic(Expr* e1, Expr* e2)
 }
 
 Expr* 
-Builder::require_ref(Expr* e)
+Builder::make_ref(Expr* e1, Expr* e2)
 {
-	if(!(e->get_type())->is_ref()){
-		std::cerr << " Ref type expected, actual: " << *(e->get_type()) << std::endl;
-		++errors;
-	}
+	if(!(e1->get_type())->is_ref()){
+		Ref_type* ref = f.ref_t(e2->get_type());
+		e1->set_type(ref);
+	} 
 
-	return e;
+	return e1;
 }
 
 Expr*

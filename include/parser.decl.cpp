@@ -6,12 +6,15 @@ parser::parse_program()
 {
 	std::vector<Decl*> declarations;
 
-	m_act.enter_scope();
+
+	m_act.enter_scope(); 	//enter the global scope
 	
 	while(Decl* d = parse_declaration_seq())
 		declarations.push_back(d);
 
-	m_act.leave_scope();
+	m_act.leave_scope();	//leave the global scope
+
+	return declarations;
 }
 
 Decl*

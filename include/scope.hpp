@@ -5,6 +5,7 @@
 #include "decl.hpp"
 #include "symbol.hpp"
 #include <stdexcept>
+#include <iostream>
 
 
 struct scope : std::unordered_map<symbol,Decl*> {
@@ -23,7 +24,7 @@ struct scope : std::unordered_map<symbol,Decl*> {
 		if(count(sym) != 0)
 			throw std::runtime_error(d->get_name() + " has already been declared");
 
-		emplace(sym,d);
+		insert(std::make_pair(sym,d));
 	}
 };
 

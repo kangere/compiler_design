@@ -196,11 +196,11 @@ actions::on_decl_statement(Decl* d)
 Decl*
 actions::on_function_declaration(token tok,Type* t){
 
-	scope current = get_current_scope();
+	auto current = get_current_scope();
 
 	Decl* fun = m_builder.make_func(tok.get_lexme().str(),t);
 
-	current.declare(tok.get_lexme(),fun);
+	current->declare(tok.get_lexme(),fun);
 
 	return fun;
 }
@@ -228,11 +228,11 @@ actions::finish_variable_declaration(Decl* d, Expr* e)
 Decl*
 actions::on_variable_declaration(token tok, Type* t)
 {	
-	scope current = get_current_scope();
+	auto current = get_current_scope();
 
 	Decl* var = m_builder.make_var(tok.get_lexme().str(),t);
 
-	current.declare(tok.get_lexme(),var);
+	current->declare(tok.get_lexme(),var);
 
 	return var;
 }

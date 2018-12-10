@@ -38,7 +38,7 @@ public:
 
 	void leave_scope(){ m_stack.pop_back(); }
 
-	scope get_current_scope() { return m_stack.back();}
+	std::vector<scope>::iterator get_current_scope() { return m_stack.end() - 1;}
 
 	//Expressions
 	Expr* on_bool_literal(token const&);

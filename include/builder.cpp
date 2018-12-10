@@ -159,9 +159,9 @@ Expr*
 Builder::make_assignment(Expr* e1,Expr* e2)
 {
 
-	e1 = require_ref(e1);
-
 	e2 = convert_value(e2);
+
+	e1 = make_ref(e1,e2);
 
 	return f.assign_e(e1,e2,new Ref_type(e2->get_type())); 
 }

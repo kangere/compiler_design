@@ -19,7 +19,7 @@ private:
 	std::pair<Expr*,Expr*> require_same(Expr*,Expr*);
 	std::pair<Expr*,Expr*> is_same_arithmetic(Expr*,Expr*);
 	Expr* require_arithmetic(Expr*);
-	Expr* require_ref(Expr*);
+	Expr* make_ref(Expr*,Expr*);
 	Expr* require_function(Expr*);
 
 public:

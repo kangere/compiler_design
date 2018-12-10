@@ -23,6 +23,9 @@ public:
 	Func_type* func_t()
 	{return new Func_type();}
 
+	Ref_type* ref_t(Type* t)
+	{return new Ref_type(t);}
+
 	//EXPRESSIONS
 	Bool_expr* bool_e(bool b)
 	{return new Bool_expr(b);}

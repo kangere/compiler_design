@@ -68,7 +68,7 @@ TEST_CASE("Expression Tests","[Expression]"){
 }
 
 
-TEST_CASE("Declaration Tests","[Declarations]"){
+TEST_CASE("Declaration/Statements Tests","[Declarations]"){
 
 	std::fstream file("declarations.mc",std::ios::in);
 
@@ -86,6 +86,7 @@ TEST_CASE("Declaration Tests","[Declarations]"){
 
 		CHECK(decl[0]->get_kind() == Decl::var_decl);
 		CHECK(decl[1]->get_kind() == Decl::var_decl);
+		CHECK(decl[2]->get_kind() == Decl::func_decl);
 
 
 	} else {
