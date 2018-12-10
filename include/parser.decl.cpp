@@ -96,14 +96,29 @@ parser::parse_function_declaration()
 
 	expect(token::lparen);
 
+	//enter parameter scope
+	m_act.enter_scope();
+
 	std::vector<Decl*> params = parse_parameter_list();
 
 	expect(token::rparen);
 	expect(token::arrow);
 
-	Type* type = parse_type();
+	Type* ret_type = parse_type();
 
-	Decl* func = m_act.on_function_declaration(id,type);
+	Func_type* f_type = m_act.on_func_type();
+
+
+	//set return type of function type
+	f_type->set_return_type(ret_type);
+
+	//Add parameter types 
+	for(const Decl* p : params)
+		f_type->add_param(p->get_type());
+
+
+
+	Decl* func = m_act.on_function_declaration(id,f_type);
 
 	//enter block scope
 	m_act.enter_scope();
@@ -111,6 +126,9 @@ parser::parse_function_declaration()
 	Stmt* block = parse_statement();
 
 	//leave block scope
+	m_act.leave_scope();
+
+	//leave parameter scope
 	m_act.leave_scope();
 
 	func = m_act.finish_function_declaration(func,block);
@@ -130,9 +148,6 @@ parser::parse_parameter_list()
 
 	params.push_back(d);
 
-	//enter parameter scope
-	m_act.enter_scope();
-
 	while(next_token_is(token::comma)){
 
 		//consume comma
@@ -141,9 +156,6 @@ parser::parse_parameter_list()
 		Decl* d2 = parse_parameter();
 		params.push_back(d2);
 	}
-
-	//leave parameter scope
-	m_act.leave_scope();
 
 	return params;
 }

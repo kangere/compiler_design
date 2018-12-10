@@ -22,7 +22,11 @@ public:
 
 	Type* on_bool_type() { return m_builder.bool_type(); }
 
-	Type* on_func_type() { return m_builder.func_type(); }
+	Func_type* on_func_type() { 
+		
+		Type* t = m_builder.func_type(); 
+		return static_cast<Func_type*>(t); 
+	}
 
 
 	//scope

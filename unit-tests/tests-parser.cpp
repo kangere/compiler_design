@@ -82,7 +82,10 @@ TEST_CASE("Declaration Tests","[Declarations]"){
 
 		parser parse(syms,input);
 
-		std::vector<Decl*> decls = parse.parse_program();
+		std::vector<Decl*> decl = parse.parse_program();
+
+		CHECK(decl[0]->get_kind() == Decl::var_decl);
+		CHECK(decl[1]->get_kind() == Decl::var_decl);
 
 
 	} else {

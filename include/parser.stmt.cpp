@@ -18,7 +18,7 @@ parser::parse_statement()
 			return parse_continue_statement();
 		case token::break_kw:
 			return parse_break_statement();
-		case token::lparen:
+		case token::lbrace:
 			return parse_block_statement();
 		case token::var_kw:
 		case token::ref_kw:
@@ -120,17 +120,17 @@ parser::parse_declaration_statement()
 Stmt*
 parser::parse_block_statement()
 {
-	require(token::lparen);
+	require(token::lbrace);
 
 	std::vector<Stmt*> vec;
-	while(next_token_is_not(token::rparen)){
+	while(next_token_is_not(token::rbrace)){
 
 		Stmt* s = parse_statement();
 
 		vec.push_back(s);	
 	}
 	
-	expect(token::rparen);
+	expect(token::rbrace);
 
 	return m_act.on_block_statement(vec);
 }

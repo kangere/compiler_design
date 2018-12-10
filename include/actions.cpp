@@ -1,7 +1,6 @@
 #include "actions.hpp"
 #include <string>
 
-
 Expr*
 actions::on_bool_literal(token const& tok)
 {
